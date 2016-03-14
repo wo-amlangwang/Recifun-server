@@ -5,17 +5,11 @@ module.exports = function(app,passport) {
 
   app.get('/api/facebook/token',
     passport.authenticate('facebook-token'),
-    function (req, res) {
-      res.sendStatus(req.user? 200 : 401);
-    }
-  );
+    middleware.local.fblogin);
 
   app.post('/api/login', middleware.local.login);
 
-  app.get('/api/logout',function(req,res,nest) {
-    req.logout();
-    res.sendStatus(200);
-  });
+  app.get('/api/logout',middleware.local.logout);
 
   var form = "<!DOCTYPE HTML><html><body>" +
 "<form method='post' action='/api/pictureUpload' enctype='multipart/form-data'>" +
