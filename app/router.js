@@ -16,19 +16,23 @@ module.exports = function(app,passport) {
     req.logout();
     res.sendStatus(200);
   });
-/*
+
   var form = "<!DOCTYPE HTML><html><body>" +
-"<form method='post' action='/upload' enctype='multipart/form-data'>" +
+"<form method='post' action='/api/pictureUpload' enctype='multipart/form-data'>" +
 "<input type='file' name='image'/>" +
 "<input type='submit' /></form>" +
-"</body></html>";*/
+"</body></html>";
 
   app.get('/',function(req,res,next) {
-    //res.writeHead(200, {'Content-Type': 'text/html' });
-    //res.end(form);
+    res.writeHead(200, {'Content-Type': 'text/html' });
+    res.end(form);
   });
   app.post('/api/pictureUpload',upload.single('image'),function (req,res) {
-    res.sendStatus(200);
+    if(req.uploadToS3){
+      res.status(200).send({'url' : req.S3url});
+    }else {
+      res.sendStatus(403);
+    }
   });
 
 };
