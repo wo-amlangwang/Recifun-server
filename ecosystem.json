@@ -1,0 +1,15 @@
+{
+  "apps" : [{
+    "name"    : "Recifun",
+    "script"  : "server.js",
+    "watch"   : true,
+    "cwd"     : "./",
+    "env"     : {
+      "database"    : "mongodb://wakaka:1234qwer@ds059804.mlab.com:59804/langwang",
+      "PORT"        : 5000,
+      "FBAPPID"     : "1729332400621142",
+      "FBAPPSECRET" : "f5c7a097d037e5b039618e73d1368a94",
+      "ENV"         : ""
+    }
+    }]
+}
