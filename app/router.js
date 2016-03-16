@@ -18,8 +18,8 @@ module.exports = function(app,passport) {
 "</body></html>";
 
   app.get('/',function(req,res,next) {
-    res.writeHead(200, {'Content-Type': 'text/html' });
-    res.end(form);
+    //res.writeHead(200, {'Content-Type': 'text/html' });
+    //res.end(form);
   });
   app.post('/api/pictureUpload',upload.single('image'),function (req,res) {
     if(req.uploadToS3){
@@ -28,5 +28,7 @@ module.exports = function(app,passport) {
       res.sendStatus(403);
     }
   });
+
+  app.post('/api/newRecipe',middleware.isAuthenticated,middleware.reci.create);
 
 };

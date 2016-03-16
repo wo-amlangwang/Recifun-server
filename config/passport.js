@@ -5,11 +5,11 @@ var FacebookTokenStrategy = require('passport-facebook-token');
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user._userid);
   });
 
   passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        User.findById(_userid, function(err, user) {
             done(err, user);
         });
   });

@@ -4,7 +4,7 @@ var findorcreate  = require('mongoose-findorcreate');
 var uuid = require('node-uuid');
 
 var userSchema = mongoose.Schema({
-  userid : { type: String, default: uuid.v1() },
+  _userid : { type: String, default: uuid.v1() },
   local :{
     username : String,
     password : String,

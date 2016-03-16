@@ -3,10 +3,11 @@ var uuid = require('node-uuid');
 
 var reciSchema = mongoose.Schema({
   id      : { type: String, default: uuid.v1() },
-  author  : String,
+  author  : { type: String, ref: 'User' },
   name    : String,
   picture : String,
   numStep : Number,
+  data    : Date,
   steps   : [{
     stepnum     : Number,
     description : String,
