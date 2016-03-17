@@ -10,13 +10,13 @@ module.exports = function(app,passport) {
   app.post('/api/login', middleware.local.login);
 
   app.get('/api/logout',middleware.local.logout);
-
+/*
   var form = "<!DOCTYPE HTML><html><body>" +
 "<form method='post' action='/api/pictureUpload' enctype='multipart/form-data'>" +
 "<input type='file' name='image'/>" +
 "<input type='submit' /></form>" +
 "</body></html>";
-
+*/
   app.get('/',function(req,res,next) {
     //res.writeHead(200, {'Content-Type': 'text/html' });
     //res.end(form);
@@ -28,7 +28,5 @@ module.exports = function(app,passport) {
       res.sendStatus(403);
     }
   });
-
-  app.post('/api/newRecipe',middleware.isAuthenticated,middleware.reci.create);
 
 };
