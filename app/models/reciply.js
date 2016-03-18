@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 
 var reciplySchema = mongoose.Schema({
-  _id         : {type : String, default: uuid.v1() },
   picture     : String,
   publish     : {type : Date, default : new Date()},
   lastmodfide : {type : Date, default : new Date()},
   name        : String,
-  author      : {type : String, ref : 'User'},
+  author      : mongoose.Schema.Types.ObjectId,
+  userprofile : {type : mongoose.Schema.Types.ObjectId, ref : 'Profile'},
   description : String,
   numsteps    : Number,
   steps       : [{

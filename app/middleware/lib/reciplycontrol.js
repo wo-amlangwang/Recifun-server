@@ -28,8 +28,11 @@ module.exports = {
   create : function(req) {
     reci = new Reciply();
     reci.author = req.user._id;
+    reci.userprofile = req.user.profile;
     reci.picture = req.body.picture || '';
     reci.name = req.body.name || '';
+    reci.publish = new Date();
+    reci.lastmodfide = new Date();
     reci.description = req.body.description || '';
     if(req.body.steps !== undefined){
       reci.steps = req.body.steps;
@@ -49,7 +52,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       Reciply.find({})
       .sort({lastmodfide : -1})
-      .populate('author')
+      .populate('userprofile')
       .exec(function(err,reciplys) {
         if(err){
           reject(err);
@@ -62,7 +65,7 @@ module.exports = {
   getOne : function (req) {
     return new Promise(function(resolve, reject) {
       Reciply.findOne({_id : req.body._id || req.params._id})
-      .populate('author')
+      .populate('userprofile')
       .exec(function(err, reciply) {
         if(err){
           reject(err);

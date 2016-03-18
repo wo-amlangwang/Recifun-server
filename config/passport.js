@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../app/models/user');
+var Profile = require('../app/models/profile');
 var FacebookTokenStrategy = require('passport-facebook-token');
 
 module.exports = function(passport) {
@@ -44,15 +45,28 @@ module.exports = function(passport) {
       if(user) {
         return done(null, false,{'message' : 'user exist'});
       }else {
-         var newUser = new User();
-         newUser.local.username = username;
-         newUser.local.password = newUser.generateHash(password);
-         newUser.save(function(err) {
-           if(err) {
-             throw err;
-           }
-           return done(null,newUser);
-         });
+        var newUser = new User();
+        newUser.local.username = username;
+        newUser.local.password = newUser.generateHash(password);
+        newUser.save(function(err,thisuser) {
+          if(err) {
+            throw err;
+          }
+          userprofile = new Profile();
+          userprofile.user = thisuser._id;
+          userprofile.save(function (err, newprofile) {
+            if(err){
+              throw err;
+            }
+            thisuser.profile = newprofile._id;
+            thisuser.save(function (err,user) {
+              if(err){
+                throw err;
+              }
+              return done(null,user);
+            });
+          });
+        });
       }
     });
   }));
@@ -65,11 +79,24 @@ module.exports = function(passport) {
       if(String(process.env.DEBUG).localeCompare('true') === 0){
         console.log(profile);
       }
-      newUser.facebook.email = profile.emails[0].value;
-      newUser.facebook.name = profile.name.familyName + ' ' + profile.name.givenName;
-      newUser.save(function(err,thisuser) {
-        return done(err,thisuser);
-      });
+      //newUser.facebook.email = profile.emails[0].value;
+      //newUser.facebook.name = profile.name.familyName + ' ' + profile.name.givenName;
+      if(create){
+        var newprofile = new Profile();
+        newprofile.email = profile.emails[0].value;
+        newprofile.picture = profile.photos[0].value;
+        newprofile.user = newUser._id;
+        newprofile.save(function (err, thisprofile) {
+          newUser.profile = thisprofile._id;
+          newUser.save(function (err,thisuser) {
+            if(err){
+              throw err;
+            }
+            return done(err,thisuser);
+          });
+        });
+      }
+      return done(err,newUser);
     });
   }));
 };

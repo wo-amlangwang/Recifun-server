@@ -4,16 +4,14 @@ var findorcreate  = require('mongoose-findorcreate');
 var uuid = require('node-uuid');
 
 var userSchema = mongoose.Schema({
-  _id : { type: String, default: uuid.v1() },
   local :{
     username : String,
     password : String,
   },
   facebook :{
     id    : String,
-    email : String,
-    name  : String
-  }
+  },
+  profile : {type : mongoose.Schema.Types.ObjectId, ref : 'Profile'},
 });
 
 userSchema.methods.generateHash = function(password) {
