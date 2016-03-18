@@ -5,11 +5,22 @@ var Promise = require("bluebird");
 module.exports = {
   update : function(req) {
     return new Promise(function(resolve, reject) {
-      req.body.reciply.save(function(err,reciply){
+      Reciply.findOne({'_id' : req.body.reciply._id},function(err,reciply) {
         if(err){
-          reject(err);
+          return reject(err);
+        }
+        if(req.user._id.localeCompare(reciply.author) !== 0){
+          return reject(3);
         }else {
-          resolve(reciply);
+          req.body.reciply.publish = reciply.publish;
+          req.body.reciply.lastmodfide = new Date();
+          req.body.reciply.save(function(err,reciply){
+            if(err){
+              reject(err);
+            }else {
+              resolve(reciply);
+            }
+          });
         }
       });
     });
@@ -34,7 +45,7 @@ module.exports = {
         });
     });
   },
-  gatall : function() {
+  getall : function() {
     return new Promise(function(resolve, reject) {
       Reciply.find({})
       .sort({lastmodfide : -1})
@@ -57,6 +68,26 @@ module.exports = {
           reject(err);
         }else {
           resolve(reciply);
+        }
+      });
+    });
+  },
+  remove : function(req) {
+    return new Promise(function(resolve, reject) {
+      Reciply.findOne({_id : req.body._id || req.params._id},function (err, reciply) {
+        if(err){
+          return reject(err);
+        }
+        if(req.user._id.localeCompare(reciply.author) !== 0){
+          return reject(3);
+        }else {
+          reciply.remove(function(err) {
+            if(err){
+              reject(err);
+            }else {
+              resolve();
+            }
+          });
         }
       });
     });

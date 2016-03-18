@@ -9,7 +9,7 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser(function(id, done) {
-        User.findById(_id, function(err, user) {
+        User.findById(id, function(err, user) {
             done(err, user);
         });
   });
@@ -17,8 +17,8 @@ module.exports = function(passport) {
   passport.use('local-login', new LocalStrategy({
     usernameField : 'username',
     passwordField : 'password',
-  },function(req,username,password,done) {
-    user.findOne({'local.username' : username},function(err,user) {
+  },function(username,password,done) {
+    User.findOne({'local.username' : username},function(err,user) {
       if(err){
         return done(err,false,{'message' : 'database error'});
       }
@@ -36,7 +36,7 @@ module.exports = function(passport) {
   passport.use('local-register', new LocalStrategy({
     usernameField : 'username',
     passwordField : 'password',
-  },function (req,username,password,done) {
+  },function (username,password,done) {
     User.findOne({'local.username' : username},function (err,user) {
       if(err) {
         return done(err,false,{'message' : 'database error'});
@@ -68,7 +68,7 @@ module.exports = function(passport) {
       newUser.facebook.email = profile.emails[0].value;
       newUser.facebook.name = profile.name.familyName + ' ' + profile.name.givenName;
       newUser.save(function(err,thisuser) {
-        return done(err,newUser);
+        return done(err,thisuser);
       });
     });
   }));
