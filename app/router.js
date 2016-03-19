@@ -88,4 +88,6 @@ module.exports = function(app,passport) {
   });
 
   app.get('/api/islogin',middleware.islogin);
+
+  app.get('/api/profile',middleware.profile.get);
 };

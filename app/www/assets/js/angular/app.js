@@ -21,10 +21,15 @@ myapp.controller('registerController',function($scope,$http, $window) {
 myapp.controller('mainController',function($scope,$http, $window) {
   $scope.userislogin = true;
   $http({
-  method: 'GET',
-  url: '/api/islogin'
-}).then(function (response) {
+    method: 'GET',
+    url: '/api/islogin'
+  }).then(function (response) {
     $scope.userislogin = false;
+    $http({
+      method: 'GET',
+      url: '/api/profile'}).then(function(response) {
+        $scope.profile=response.data.profile;
+      });
   }).catch(function (response) {
     $scope.userislogin = true;
   });
