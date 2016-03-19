@@ -10,5 +10,12 @@ module.exports = {
     }else {
       res.sendStatus(401);
     }
+  },
+  islogin : function (req,res,next) {
+    if (req.isAuthenticated()){
+      res.sendStatus(200);
+    }else {
+      res.sendStatus(401);
+    }
   }
 };

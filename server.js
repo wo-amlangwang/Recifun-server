@@ -22,7 +22,7 @@ require('./config/passport')(passport);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
-app.use(session({secret : randomstring.generate(16), cookie : {maxAge:60000}}));
+app.use(session({secret : randomstring.generate(16), cookie : {maxAge:60000000}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/app/www'));

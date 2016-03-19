@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html>
+<html ng-app = 'myapp'>
 	<head>
 		<title>ReciFun</title>
 		<meta charset="utf-8" />
@@ -13,14 +13,14 @@
 		</style>
 	</head>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-	<body>
+	<body ng-controller = "mainController">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="#">ReciFun</a></h1>
+						<h1><a href="/">ReciFun</a></h1>
 						<!--
 						<nav class="links">
 							<ul>
@@ -91,7 +91,7 @@
 						</div>
 
 						<!-- Actions -->
-							<section>
+							<section ng-show = "userislogin">
 								<ul class="actions vertical">
 								<!-- Login -->
 									<div id="login">
@@ -103,18 +103,24 @@
 										<li><a href="#" class="button big fit">Log In</a></li>
 									</div>
 								<!-- Register -->
-									<div id="register">
+									<form id="register" ng-submit="submit()" ng-controller = "registerController">
 										<div id="registerTextField">
-											<input type="text" name="demo-name" id="demo-name" value="" placeholder="Username" />
+											<input type="text" name="demo-name" id="demo-name" required ng-model="username" placeholder="Username" />
 											</br>
-											<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
+											<input type="password" name="demo-password" id="demo-password" required ng-model='password' placeholder="Password" />
 											</br>
-											<input type="password" name="demo-password" id="demo-password" value="" placeholder="Password" />
-											</br>
-											<input type="password" name="demo-password" id="demo-password" value="" placeholder="Confirm Password" />
+											<input type="password" name="demo-password" id="demo-password" required ng-model='confirmPassword' placeholder="Confirm Password" />
 										</div>
-										<li><a href="#" class="button big fit">Sign up</a></li>
-									</div>
+										<li><input type="submit" class="button big fit" value="Sign in"></input></li>
+									</form>
+								</ul>
+							</section>
+
+							<section ng-show = "!userislogin">
+								<ul class="actions vertical">
+									<form id="logout" ng-submit="logout()">
+										<li><input type="submit" class="button big fit" value="logout"></input></li>
+									</form>
 								</ul>
 							</section>
 
@@ -352,6 +358,7 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/angular/app.js"></script>
 			<link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 	</body>

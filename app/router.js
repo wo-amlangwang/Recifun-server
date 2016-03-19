@@ -14,14 +14,14 @@ module.exports = function(app,passport) {
           if(err){
             res.sendStatus(503);
           }else {
-            res.sendStatus(200);
+            res.status(200).send({profile : info});
           }
         });
       }else {
         if(req.isAuthenticated()){
           req.logout();
         }
-        res.sendStatus(401);
+        res.sendStatus(info.errorcode);
       }
     })(req,res,next);
   });
@@ -44,14 +44,14 @@ module.exports = function(app,passport) {
           if(err){
             res.sendStatus(503);
           }else {
-            res.sendStatus(200);
+            res.status(200).send({profile : info});
           }
         });
       }else {
         if(req.isAuthenticated()){
           req.logout();
         }
-        res.sendStatus(401);
+        res.sendStatus(info.errorcode);
       }
     })(req,res,next);
   });
@@ -67,6 +67,7 @@ module.exports = function(app,passport) {
   app.get('/',function(req,res,next) {
     //res.writeHead(200, {'Content-Type': 'text/html' });
     //res.end(form);
+    res.redirect("/www/index.html");
   });
 
   app.post('/api/reciply',middleware.isAuthenticated,middleware.reciply.create);
@@ -86,4 +87,5 @@ module.exports = function(app,passport) {
     }
   });
 
+  app.get('/api/islogin',middleware.islogin);
 };

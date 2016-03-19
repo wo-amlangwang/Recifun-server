@@ -21,15 +21,24 @@ module.exports = function(passport) {
   },function(username,password,done) {
     User.findOne({'local.username' : username},function(err,user) {
       if(err){
-        return done(err,false,{'message' : 'database error'});
+        return done(err,false,{'message' : 'database error',
+                               'errorcode' : 503});
       }
       if(!user){
-        return done(null,false,{'message' : 'wrong username or email'});
+        return done(null,false,{'message' : 'wrong username or email',
+                               'errorcode' : 401});
       }
       if (!user.validPassword(password)) {
-        return done(null,false,{'message' : 'wrong username or email'});
+        return done(null,false,{'message' : 'wrong username or email',
+                               'errorcode' : 401});
       }
-      return done(null,user);
+      Profile.findOne({ user : user._id},function (err,profile) {
+        if(err){
+          throw err;
+        }
+        return done(null,user,profile);
+
+      });
 
     });
   }));
@@ -40,10 +49,12 @@ module.exports = function(passport) {
   },function (username,password,done) {
     User.findOne({'local.username' : username},function (err,user) {
       if(err) {
-        return done(err,false,{'message' : 'database error'});
+        return done(err,false,{'message' : 'database error',
+                               'errorcode' : 503});
       }
       if(user) {
-        return done(null, false,{'message' : 'user exist'});
+        return done(null, false,{'message' : 'user exist',
+                                  'errorcode' : 409});
       }else {
         var newUser = new User();
         newUser.local.username = username;
@@ -63,7 +74,7 @@ module.exports = function(passport) {
               if(err){
                 throw err;
               }
-              return done(null,user);
+              return done(null,user,newprofile);
             });
           });
         });
