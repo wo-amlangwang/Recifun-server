@@ -4,13 +4,18 @@ myapp.controller('registerController',function($scope,$http, $window) {
   console.log($scope);
   $scope.username='';
   $scope.password='';
-  $scope.submit = function() {
+  var checkpassword = function() {
     if($scope.confirmPassword === undefined){
-      return $window.alert('please confirm the password');
+      return false;
     }
     if($scope.password.localeCompare($scope.confirmPassword) !== 0){
-      $scope.confirmPassword='';
-      return $window.alert('please enter the same password');
+      return false;
+    }
+    return true;
+  };
+  $scope.submit = function() {
+    if(this.checkpassword()){
+      return $window.alert('please check your password');
     }
   };
   //if($scope.password.localeCompare($scope.confirmPassword) !== 0){
@@ -19,19 +24,19 @@ myapp.controller('registerController',function($scope,$http, $window) {
 });
 
 myapp.controller('mainController',function($scope,$http, $window) {
-  $scope.userislogin = true;
+  $scope.userislogin = false;
   $http({
     method: 'GET',
     url: '/api/islogin'
   }).then(function (response) {
-    $scope.userislogin = false;
+    $scope.userislogin = true;
     $http({
       method: 'GET',
       url: '/api/profile'}).then(function(response) {
         $scope.profile=response.data.profile;
       });
   }).catch(function (response) {
-    $scope.userislogin = true;
+    $scope.userislogin = false;
   });
   $scope.logout = function () {
     $http({
@@ -40,6 +45,6 @@ myapp.controller('mainController',function($scope,$http, $window) {
   }).then(function (response) {
     }).catch(function (response) {
     });
-    $scope.userislogin = true;
+    $scope.userislogin = false;
   };
 });

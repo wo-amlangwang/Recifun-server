@@ -65,11 +65,11 @@
 									<li>
 										<a href="#">
 											<h3>Profile</h3>
-											<div ng-show = "userislogin">
+											<div ng-show = "!userislogin">
 												<p>Hello there!!</p>
 												<img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" style="width:100px;height:100px;">
 											</div>
-											<div ng-hide = "userislogin">
+											<div ng-show = "userislogin">
 												<p>{{ profile.nickname }}</p>
 												<p>{{ profile.email}}</p>
 												<img ng-src={{profile.picture}} style="width:100px;height:100px;">
@@ -99,7 +99,7 @@
 						</div>
 
 						<!-- Actions -->
-							<section ng-show = "userislogin">
+							<section ng-show = "!userislogin">
 								<ul class="actions vertical">
 								<!-- Login -->
 									<div id="login">
@@ -124,7 +124,7 @@
 								</ul>
 							</section>
 
-							<section ng-show = "!userislogin">
+							<section ng-show = "userislogin">
 								<ul class="actions vertical">
 									<form id="logout" ng-submit="logout()">
 										<li><input type="submit" class="button big fit" value="logout"></input></li>
@@ -143,14 +143,14 @@
 									</div>
 
 								<!-- User Status -->
-									<div class="meta" ng-hide = "userislogin">
+									<div class="meta" ng-show = "userislogin">
 										<a href="#" class="author"><span class="name">{{profile.nickname}}</span><img ng-src={{profile.picture}} alt="" /></a>
 										<List>
 											<a href="#" class="button small">Follow 123</a>
 											<a href="#" class="button small">Follower 321</a>
 										</List>
 									</div>
-									<div class="meta" ng-show = "userislogin">
+									<div class="meta" ng-show = "!userislogin">
 										<a href="#" class="author"><span class="name">Hello there!</span><img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" alt="" /></a>
 									</div>
 								</header>
