@@ -59,16 +59,12 @@
 						-->
 
 						<!-- Links -->
-						<div id="links">
+						<div ng-show = "userislogin"id="links">
 							<section>
 								<ul class="links">
 									<li>
 										<a href="#">
 											<h3>Profile</h3>
-											<div ng-show = "!userislogin">
-												<p>Hello there!!</p>
-												<img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" style="width:100px;height:100px;">
-											</div>
 											<div ng-show = "userislogin">
 												<p>{{ profile.nickname }}</p>
 												<p>{{ profile.email}}</p>
@@ -102,14 +98,19 @@
 							<section ng-show = "!userislogin">
 								<ul class="actions vertical">
 								<!-- Login -->
-									<div id="login">
+									<form id="login" ng-submit="submit()" ng-controller = "loginController">
 										<div id="loginTextField">
-											<input type="text" name="demo-name" id="demo-name" value="" placeholder="Username" />
+											<input type="text" name="demo-name" id="demo-name" required ng-model="username" placeholder="Username" />
 											</br>
-											<input type="password" name="demo-password" id="demo-password" value="" placeholder="Password" />
+											<input type="password" name="demo-password" id="demo-password" required ng-model='password' placeholder="Password" />
 										</div>
-										<li><a href="#" class="button big fit">Log In</a></li>
-									</div>
+										<li><input type="submit" class="button big fit" value="login"></input></li>
+									</form>
+
+										<div ng-controller = "fbloginController">
+											<button ng-click = "fblogin()" class="button big fit"><span class="fa fa-facebook"></span> Facebook</button>
+										</div>
+
 								<!-- Register -->
 									<form id="register" ng-submit="submit()" ng-controller = "registerController">
 										<div id="registerTextField">

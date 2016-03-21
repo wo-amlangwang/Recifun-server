@@ -1,7 +1,53 @@
 var myapp = angular.module('myapp',[]);
 
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1680522818852113',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+(function(d, s, id){
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+myapp.controller('fbloginController',function functionName($scope,$http, $window) {
+  $scope.fblogin = function() {
+    console.log(1);
+    FB.login(function(response) {
+      console.log(response);
+      var url = '/api/facebook/token?access_token=' + response.authResponse.accessToken;
+      $http({
+        method: 'GET',
+        url: url
+      }).then(function(data) {
+        $scope.$parent.profile = data.data.profile;
+        $scope.$parent.userislogin = true;
+      });
+    });
+  };
+});
+
+myapp.controller('loginController',function ($scope,$http, $window) {
+  $scope.submit = function () {
+    $http.post('/api/login',{
+      username  : $scope.username,
+      password  : $scope.password
+    }).then(function(data) {
+      $scope.$parent.profile = data.data.profile;
+      $scope.$parent.userislogin = true;
+    }).catch(function(err) {
+      $window.alert('cannot find combination of your username and your password');
+    });
+  };
+});
+
 myapp.controller('registerController',function($scope,$http, $window) {
-  console.log($scope);
   $scope.username='';
   $scope.password='';
   var checkpassword = function() {
@@ -14,13 +60,22 @@ myapp.controller('registerController',function($scope,$http, $window) {
     return true;
   };
   $scope.submit = function() {
-    if(this.checkpassword()){
+    if(!checkpassword()){
       return $window.alert('please check your password');
     }
+    $http.post('/api/register',{
+      username  : $scope.username,
+      password  : $scope.password
+    }).then(function(data) {
+      $scope.$parent.profile = data.data.profile;
+      $scope.$parent.userislogin = true;
+    }).catch(function(err) {
+      console.log(err);
+      if(err.status == 409){
+        $window.alert('used username');
+      }
+    });
   };
-  //if($scope.password.localeCompare($scope.confirmPassword) !== 0){
-    //console.log('err');
-  //}
 });
 
 myapp.controller('mainController',function($scope,$http, $window) {
@@ -45,6 +100,7 @@ myapp.controller('mainController',function($scope,$http, $window) {
   }).then(function (response) {
     }).catch(function (response) {
     });
+    $scope.profile = null;
     $scope.userislogin = false;
   };
 });
