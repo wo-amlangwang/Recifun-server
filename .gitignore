@@ -34,4 +34,5 @@ node_modules
 
 start
 .devenv
+devenv
 test.*

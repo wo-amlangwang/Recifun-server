@@ -41,6 +41,8 @@ myapp.controller('loginController',function ($scope,$http, $window) {
     }).then(function(data) {
       $scope.$parent.profile = data.data.profile;
       $scope.$parent.userislogin = true;
+      $scope.username='';
+      $scope.password='';
     }).catch(function(err) {
       $window.alert('cannot find combination of your username and your password');
     });
@@ -69,12 +71,28 @@ myapp.controller('registerController',function($scope,$http, $window) {
     }).then(function(data) {
       $scope.$parent.profile = data.data.profile;
       $scope.$parent.userislogin = true;
+      $scope.username='';
+      $scope.password='';
     }).catch(function(err) {
       console.log(err);
       if(err.status == 409){
         $window.alert('used username');
       }
     });
+  };
+});
+
+myapp.controller('reciplyController', function($scope,$http, $window) {
+  $http({
+    method: 'GET',
+    url: '/api/reciplys'
+  }).then(function (response) {
+    $scope.reciplys = response.data.reciplys;
+    console.log($scope.reciplys);
+  });
+  $scope.mini = true;
+  $scope.clickthis = function(n) {
+    $scope.mini = false;
   };
 });
 
