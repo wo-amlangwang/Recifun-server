@@ -28,6 +28,9 @@ module.exports = {
       if(err == 3){
         return res.sendStatus(403);
       }
+      if(err == 4){
+        return res.status(404).send({'message' : 'other user is updating this file'});
+      }
       res.sendStatus(500);
     });
   },

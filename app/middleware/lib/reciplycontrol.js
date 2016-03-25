@@ -1,23 +1,36 @@
 var Reciply = require('../../models/reciply');
 
 var Promise = require("bluebird");
+var uuid = require("node-uuid");
+var HashTable = require('hashtable');
+var hashtable = new HashTable();
 
 module.exports = {
   update : function(req) {
+    if(hashtable.has(req.body.reciply._id)){
+      if(hashtable.get(req.body.reciply._id).lock){
+        return reject(4);
+      }
+    }
+    hashtable.put(req.body.reciply._id, {lock: true});
     return new Promise(function(resolve, reject) {
       Reciply.findOne({'_id' : req.body.reciply._id},function(err,reciply) {
         if(err){
+          hashtable.put(req.body.reciply._id, {lock: false});
           return reject(err);
         }
         if(req.user._id.localeCompare(reciply.author) !== 0){
+          hashtable.put(req.body.reciply._id, {lock: false});
           return reject(3);
         }else {
           req.body.reciply.publish = reciply.publish;
           req.body.reciply.lastmodfide = new Date();
           req.body.reciply.save(function(err,reciply){
             if(err){
+              hashtable.put(req.body.reciply._id, {lock: false});
               reject(err);
             }else {
+              hashtable.put(req.body.reciply._id, {lock: false});
               resolve(reciply);
             }
           });
@@ -34,6 +47,7 @@ module.exports = {
     reci.publish = new Date();
     reci.lastmodfide = new Date();
     reci.description = req.body.description || '';
+    reci.ingredients = req.body.ingredients || [];
     if(req.body.steps !== undefined){
       reci.steps = req.body.steps;
       reci.numsteps = req.body.steps.length;

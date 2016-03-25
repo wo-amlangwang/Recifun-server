@@ -15,6 +15,10 @@ var reciplySchema = mongoose.Schema({
     detail  : String,
     picture : String,
   }],
+  ingredients : [{
+    name      : String,
+    quantity  : String
+  }],
 });
 
 module.exports = mongoose.model('Reciply', reciplySchema);

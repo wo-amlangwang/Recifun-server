@@ -93,6 +93,8 @@ myapp.controller('reciplyController', function($scope,$http, $window) {
   $scope.mini = true;
   $scope.clickthis = function(n) {
     $scope.mini = false;
+    $scope.large = n;
+    console.log(n);
   };
 });
 
