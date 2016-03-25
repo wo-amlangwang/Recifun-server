@@ -83,6 +83,7 @@ myapp.controller('registerController',function($scope,$http, $window) {
 });
 
 myapp.controller('reciplyController', function($scope,$http, $window) {
+  console.log($window);
   $http({
     method: 'GET',
     url: '/api/reciplys'
