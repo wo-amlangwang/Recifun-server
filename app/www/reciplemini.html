@@ -1,0 +1,19 @@
+<div class="mini-posts" ng-repeat= "n in reciplys track by $index">
+
+  <!-- Mini Post -->
+    <article ng-click = "clickthis(n)" class="mini-post">
+      <!--<a href='reciply/{{n._id}}'>-->
+        <header>
+          <h3><a href='#reciply/{{n._id}}'>{{n.name}}</a></h3>
+          <time class="published">{{n.publish}}</time>
+          <div class="author"><img ng-src={{n.userprofile.picture}} alt="" /></div>
+        </header>
+        <a href='#reciply/{{n._id}}' class="image"><img ng-src={{n.picture}} alt="" /></a>
+      <!--</a>-->
+    </article>
+</div>
+
+<ul class="actions pagination">
+									<li><a href="" class="disabled button big previous">Previous Page</a></li>
+									<li><a href="#" class="button big next">Next Page</a></li>
+</ul>

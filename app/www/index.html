@@ -13,6 +13,7 @@
 		</style>
 	</head>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
 	<body ng-controller = "mainController">
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -133,87 +134,7 @@
 										<a href="#" class="author"><span class="name">Hello there!</span><img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" alt="" /></a>
 									</div>
 								</header>
-
-								<!-- Mini Posts -->
-							<section ng-controller = "reciplyController" >
-								<div class="mini-posts" ng-show = "mini" ng-repeat= "n in reciplys track by $index">
-
-									<!-- Mini Post -->
-										<article ng-click = "clickthis(n)" class="mini-post">
-											<header>
-												<h3><div>{{n.name}}</div></h3>
-												<time class="published">{{n.publish}}</time>
-												<div class="author"><img ng-src={{n.userprofile.picture}} alt="" /></div>
-											</header>
-											<div class="image"><img ng-src={{n.picture}} alt="" /></div>
-										</article>
-								</div>
-								<!-- Pagination -->
-								<ul  ng-show = "mini" class="actions pagination">
-									<li><a href="" class="disabled button big previous">Previous Page</a></li>
-									<li><a href="#" class="button big next">Next Page</a></li>
-								</ul>
-
-								<article class="post" ng-show = "!mini">
-									<header>
-										<div class="title">
-											<h2>{{large.name}}</h2>
-											<!---<p>categories and tags</p>-->
-										</div>
-
-
-										<div class="meta">
-											<div class="author"><span class="name">{{large.userprofile.nickname}}</span><img ng-src={{large.userprofile.picture}} alt="" /></div>
-											<a href="#" class="button small">Follow</a>
-										</div>
-									</header>
-
-
-									<article class="post">
-										<div class="image featured"><img ng-src={{large.picture}} alt="" /></div>
-										<p>{{large.description}}</p>
-										<footer>
-											<ul class="stats">
-												<li><a href="#" class="icon fa-heart">28</a></li>
-												<li><a href="#" class="icon fa-comment">128</a></li>
-											</ul>
-										</footer>
-									</article>
-
-
-									<section ng-show="large.ingredients.length!==0">
-										<h1>Ingredients</h1>
-										<div class="table-wrapper">
-											<table class="alt">
-												<thead>
-													<tr>
-														<th>Name</th>
-														<th>Quantity</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr  ng-repeat = "n in large.ingredients track by $index">
-														<td>{{n.name}}</td>
-														<td>{{n.quantity}}</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</section>
-
-								<article class="post" ng-repeat ="n in large.steps | orderBy:'stepNum'">
-										<header>
-											<div class="title">
-												<h2><a href='#' >Step {{n.stepNum}} </a></h2>
-												<p>{{n.detail}}</p>
-											</div>
-										</header>
-										<div>
-											<a href="#" class="image featured"><img ng-src={{n.picture}} alt="" /></a>
-										</div>
-									</article>
-								</article>
-							</section>
+								<div ng-view></div>
 						</article>
 
 					</div>

@@ -1,0 +1,62 @@
+<article class="post">
+  <header>
+    <div class="title">
+      <h2>{{large.name}}</h2>
+      <!---<p>categories and tags</p>-->
+    </div>
+
+
+    <div class="meta">
+      <div class="author"><span class="name">{{large.userprofile.nickname}}</span><img ng-src={{large.userprofile.picture}} alt="" /></div>
+      <a href="#" class="button small">Follow</a>
+    </div>
+  </header>
+
+
+  <article class="post">
+    <div class="image featured"><img ng-src={{large.picture}} alt="" /></div>
+    <p>{{large.description}}</p>
+    <footer>
+      <ul class="stats">
+        <li><a href="#" class="icon fa-heart">28</a></li>
+        <li><a href="#" class="icon fa-comment">128</a></li>
+      </ul>
+    </footer>
+  </article>
+
+
+  <section ng-show="large.ingredients.length!==0">
+    <h1>Ingredients</h1>
+    <div class="table-wrapper">
+      <table class="alt">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  ng-repeat = "n in large.ingredients track by $index">
+            <td>{{n.name}}</td>
+            <td>{{n.quantity}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+<article class="post" ng-repeat ="n in large.steps | orderBy:'stepNum'">
+    <header>
+      <div class="title">
+        <h2><a href='#' >Step {{n.stepNum}} </a></h2>
+        <p>{{n.detail}}</p>
+      </div>
+    </header>
+    <div>
+      <a href="#" class="image featured"><img ng-src={{n.picture}} alt="" /></a>
+    </div>
+  </article>
+</article>
+<ul class="actions pagination">
+  <button ng-click="back()" class="button big previous">back</button>
+</ul>

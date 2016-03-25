@@ -1,4 +1,4 @@
-var myapp = angular.module('myapp',[]);
+var myapp = angular.module('myapp',['ngRoute']);
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -98,8 +98,40 @@ myapp.controller('reciplyController', function($scope,$http, $window) {
     console.log(n);
   };
 });
+myapp.config(function($routeProvider, $locationProvider){
+  $routeProvider
+  .when('/reciply/:reciplyId',{
+    templateUrl: 'reciplelarge.html',
+    controller: function ($scope,$window) {
+      $scope.large = $scope.$parent.large;
+      $scope.back = function() {
+        $scope.$parent.large = null;
+        $window.history.back();
+      };
+    }
+  })
+  .otherwise({
+    templateUrl: 'reciplemini.html',
+    controller: function ($scope) {
+      $scope.$parent.thisreciplys.then(function () {
+        $scope.reciplys = $scope.$parent.reciplys;
+      });
+      $scope.clickthis = function(n) {
+        $scope.$parent.large = n;
+
+      };
+    }
+  });
+});
+
 
 myapp.controller('mainController',function($scope,$http, $window) {
+  $scope.thisreciplys = $http({
+    method: 'GET',
+    url: '/api/reciplys'
+  }).then(function (response) {
+    $scope.reciplys = response.data.reciplys;
+  });
   $scope.userislogin = false;
   $http({
     method: 'GET',

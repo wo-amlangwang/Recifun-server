@@ -26,7 +26,7 @@ module.exports = {
       res.sendStatus(200);
     }).catch(function(err) {
       if(err == 3){
-        return res.sendStatus(403);
+        return res.sendStatus(404).send({'message' : 'no right to do this'});
       }
       if(err == 4){
         return res.status(404).send({'message' : 'other user is updating this file'});
