@@ -140,32 +140,7 @@
 					</header>
 				</section>
 
-
-				<article class="post">
-					<header>
-						<div class="title">
-							<h2><a href='#' >category </a></h2>
-						</div>
-
-						<!-- User Status -->
-						<div class="meta" ng-show = "userislogin">
-							<a href="#" class="author"><span class="name">{{profile.nickname}}</span><img ng-src={{profile.picture}} alt="" /></a>
-							<List>
-								<a href="#" class="button small">Follow 123</a>
-								<a href="#" class="button small">Follower 321</a>
-							</List>
-						</div>
-						<div class="meta" ng-show = "!userislogin">
-							<a href="#" class="author"><span class="name">Hello there!</span><img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" alt="" /></a>
-						</div>
-					</header>
-
-					<div ng-view></div>
-
-					<!-- Sidebar -->
-					<section id="sidebar"></section>
-
-				</article>
+				<div ng-view></div>
 			</div>
 		</div>
 

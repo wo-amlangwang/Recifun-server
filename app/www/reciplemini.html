@@ -1,19 +1,43 @@
-<div class="mini-posts" >
+<article class="post">
+  <header>
+    <div class="title">
+      <h2><a href='#' >category </a></h2>
+    </div>
 
-  <!-- Mini Post -->
-  <article ng-repeat= "n in reciplys track by $index" ng-click = "clickthis(n)" class="mini-post">
-    <!--<a href='reciply/{{n._id}}'>-->
-    <header>
-      <h3><a href='#reciply/{{n._id}}'>{{n.name}}</a></h3>
-      <time class="published">{{n.publish}}</time>
-      <div class="author"><img ng-src={{n.userprofile.picture}} alt="" /></div>
-    </header>
-    <a href='#reciply/{{n._id}}' class="image"><img ng-src={{n.picture}} alt="" /></a>
-    <!--</a>-->
-  </article>
-</div>
+    <!-- User Status -->
+    <div class="meta" ng-show = "$parent.userislogin">
+      <a href="#" class="author"><span class="name">{{profile.nickname}}</span><img ng-src={{$parent.profile.picture}} alt="" /></a>
+      <List>
+        <a href="#" class="button small">Follow 123</a>
+        <a href="#" class="button small">Follower 321</a>
+      </List>
+    </div>
+    <div class="meta" ng-show = "!$parent.userislogin">
+      <a href="#" class="author"><span class="name">Hello there!</span><img ng-src="https://s3-us-west-2.amazonaws.com/langwang1/uploads/photos/d1880ef0-e9b7-11e5-8a6d-93c8e299b24e.gif" alt="" /></a>
+    </div>
+  </header>
 
-<ul class="actions pagination">
-	<li><a href="" class="disabled button big previous">Previous Page</a></li>
-	<li><a href="#" class="button big next">Next Page</a></li>
-</ul>
+  <div class="mini-posts" >
+
+    <!-- Mini Post -->
+    <article ng-repeat= "n in reciplys track by $index" ng-click = "clickthis(n)" class="mini-post">
+      <!--<a href='reciply/{{n._id}}'>-->
+      <header>
+        <h3><a href='#reciply/{{n._id}}'>{{n.name}}</a></h3>
+        <time class="published">{{n.publish}}</time>
+        <div class="author"><img ng-src={{n.userprofile.picture}} alt="" /></div>
+      </header>
+      <a href='#reciply/{{n._id}}' class="image"><img ng-src={{n.picture}} alt="" /></a>
+      <!--</a>-->
+    </article>
+  </div>
+
+  <ul class="actions pagination">
+  	<li><a href="" class="disabled button big previous">Previous Page</a></li>
+  	<li><a href="#" class="button big next">Next Page</a></li>
+  </ul>
+
+  <!-- Sidebar -->
+  <section id="sidebar"></section>
+
+</article>
