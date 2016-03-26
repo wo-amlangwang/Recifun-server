@@ -1,7 +1,7 @@
-<div class="mini-posts" ng-repeat= "n in reciplys track by $index">
+<div class="mini-posts" >
 
   <!-- Mini Post -->
-    <article ng-click = "clickthis(n)" class="mini-post">
+    <article ng-repeat= "n in reciplys track by $index" ng-click = "clickthis(n)" class="mini-post">
       <!--<a href='reciply/{{n._id}}'>-->
         <header>
           <h3><a href='#reciply/{{n._id}}'>{{n.name}}</a></h3>
