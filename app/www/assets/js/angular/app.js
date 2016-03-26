@@ -73,6 +73,7 @@ myapp.controller('registerController',function($scope,$http, $window) {
       $scope.$parent.userislogin = true;
       $scope.username='';
       $scope.password='';
+      $scope.confirmPassword = '';
     }).catch(function(err) {
       console.log(err);
       if(err.status == 409){
