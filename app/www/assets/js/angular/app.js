@@ -26,6 +26,7 @@ myapp.controller('fbloginController',function functionName($scope,$http, $window
         method: 'GET',
         url: url
       }).then(function(data) {
+        console.log(data);
         $scope.$parent.profile = data.data.profile;
         $scope.$parent.userislogin = true;
       });
@@ -111,10 +112,28 @@ myapp.config(function($routeProvider, $locationProvider){
       };
     }
   })
-  .when('/reciply/uploads',{
+  .when('/uploads',{
     templateUrl : 'upload.html',
     controller : function ($scope) {
 
+    }
+  })
+  .when('/editprofile',{
+    templateUrl : 'editprofile.html',
+    controller : function ($scope,$http,$window) {
+      $scope.submit = function () {
+        $scope.$parent.profile.nickname = $scope.nickname;
+        $scope.$parent.profile.email = $scope.email;
+        $http.patch('/api/profile',{
+          profile  : $scope.$parent.profile,
+        });
+        $window.location.href ='/';
+      };
+      $scope.cancel =function() {
+        $scope.nickname = '';
+        $scope.email = '';
+        $window.history.back();
+      };
     }
   })
   .otherwise({
