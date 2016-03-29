@@ -1,0 +1,98 @@
+<article class="post">
+<header>
+	<div class="title">
+		<h2><a href='#' >Create a recipe </a></h2>
+	</div>
+</header>
+
+<h3>Recipe Title</h3>
+<input id="recipe title" type="text" name="title" ng-model="name" placeholder="Recipe Title">
+</br>
+<h3>Recipe Photo</h3>
+<!-- Recipe Photo -->
+<div id="image-preview">
+	<label for="image-upload" id="image-label">Choose File</label>
+	<input id="image upload" type='file' onchange="readURLRI(this);" />
+	<img id="recipeImg" class="image" alt="" width="100%" align="center" />
+</div>
+</br>
+
+<!-- Uplaod video by Youtube Embed -->
+<div>
+	<header>
+		<div class="title">
+			<h2>Vedio URL</h2>
+			<p>Click share under the video. Choose "Enbed" and copy the URL only in the textfeild.</p>
+		</div>
+	</header>
+	<input id="videoURL" type="text" name="title" value="" placeholder="URL in the src = """>
+</div>
+</br>
+
+<div class="upfood clearfix">
+	<div class="foicp pvl clearfix libufo">
+		<!-- ingradient table -->
+		<div class="ingredient table">
+			<section>
+				<h3>Ingradients</h3>
+				<div class="row uniform">
+					<div id="ingredient-name" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Gradient name" />
+					</div>
+					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Quantity" />
+					</div>
+					<div id="ingredient-name" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Gradient name" />
+					</div>
+					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Quantity" />
+					</div>
+					<div id="ingredient-name" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Gradient name" />
+					</div>
+					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
+							<input type="text" name="demo-name" id="demo-name" value="" placeholder="Quantity" />
+					</div>
+					<div class="adlan">
+						<a class="button small" href="javascript:void(0);" tabindex="-1" id="zhuliao" style="display:block;">add more</a>
+					</div>
+				</div>
+			</section>
+		</br>
+		</div>
+		<!-- step -->
+		<div>
+			<div>
+				<h3>Steps</h3>
+					<span>Step 1</span>
+						<div>
+
+
+							<div id="image-preview">
+								<label for="image-upload" id="image-label">Choose File</label>
+								<input id="image upload" type='file' onchange="readURL(this);" />
+								<img id="step1" class="image" alt="" width="100%" align="center" />
+							</div>
+							<div><button class="remove image" id="remove image1" onclick="removeImage()">Remove</button></div>
+						</br>
+						</div>
+						<span class="12u$">
+							<textarea onclick="$(this).focus();" name="demo-message" id="demo-message"></textarea>
+						</span>
+					</li>
+				</ul>
+				</br>
+			</div>
+		</div>
+		<div style="display:block;">
+			 <a class="button small"  href="javascript:void(0);" tabindex="-1" id="addBuZhou">Add more steps</a>
+		</div>
+		</br>
+	</div>
+</div>
+<div>
+	<button class="button large" id="upload" >Upload</button>
+	<button class="button large" id="cancel" >Cancel</button>
+</div>
+</article>

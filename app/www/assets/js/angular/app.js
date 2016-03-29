@@ -111,6 +111,12 @@ myapp.config(function($routeProvider, $locationProvider){
       };
     }
   })
+  .when('/reciply/uploads',{
+    templateUrl : 'upload.html',
+    controller : function ($scope) {
+
+    }
+  })
   .otherwise({
     templateUrl: 'reciplemini.html',
     controller: function ($scope) {
