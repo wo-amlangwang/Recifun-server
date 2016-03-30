@@ -39,27 +39,28 @@ module.exports = {
     });
   },
   create : function(req) {
-    reci = new Reciply();
-    reci.author = req.user._id;
-    reci.userprofile = req.user.profile;
-    reci.picture = req.body.picture || '';
-    reci.name = req.body.name || '';
-    reci.publish = new Date();
-    reci.lastmodfide = new Date();
-    reci.description = req.body.description || '';
-    reci.ingredients = req.body.ingredients || [];
-    if(req.body.steps !== undefined){
-      reci.steps = req.body.steps;
-      reci.numsteps = req.body.steps.length;
-    }
     return new Promise(function(resolve, reject) {
-        reci.save(function(err,newreci) {
-          if(err){
-            reject(err);
-          }else {
-            resolve(newreci);
-          }
-        });
+      reci = new Reciply();
+      reci.author = req.user._id;
+      reci.userprofile = req.user.profile;
+      reci.picture = req.body.picture || '';
+      reci.name = req.body.name || '';
+      reci.publish = new Date();
+      reci.lastmodfide = new Date();
+      reci.description = req.body.description || '';
+      reci.ingredients = req.body.ingredients || [];
+      if(req.body.steps !== undefined){
+        reci.steps = req.body.steps;
+        reci.numsteps = req.body.steps.length;
+      }
+
+      reci.save(function(err,newreci) {
+        if(err){
+          reject(err);
+        }else {
+          resolve(newreci);
+        }
+      });
     });
   },
   getall : function() {
