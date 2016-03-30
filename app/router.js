@@ -78,6 +78,7 @@ module.exports = function(app,passport) {
 
   app.get('/api/reciply/:_id',middleware.reciply.getOne);
   app.get('/api/reciplys',middleware.reciply.getall);
+  app.post('/api/reciplySearch',middleware.reciply.searchAll);
 
   app.patch('/api/reciply',middleware.isAuthenticated,middleware.reciply.update);
 

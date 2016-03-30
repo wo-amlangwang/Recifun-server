@@ -183,3 +183,22 @@ myapp.controller('mainController',function($scope,$http, $window) {
     $scope.userislogin = false;
   };
 });
+
+// -------- Sine --------
+myapp.controller("SearchController", function($scope, $http, $window) {
+    console.log("Search Field");
+    console.log($scope.searchkey);
+  $scope.searchAll = function() {
+      console.log("Search Field submit");
+    $http.post('/api/reciplySearch',{
+      searchkey  : $scope.searchkey
+    }).then(function(data) {
+        console.log($scope);
+        $scope.$parent.reciplys = data.data.reciplys;
+        window.location="#reciplemini.html";
+    }).catch(function(err) {
+      $window.alert('cannot search : ' + err);
+    });
+  };
+});
+// --------- End ----------
