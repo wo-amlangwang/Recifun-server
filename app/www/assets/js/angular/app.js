@@ -112,11 +112,39 @@ myapp.config(function($routeProvider, $locationProvider){
       };
     }
   })
-  .when('/uploads',{
-    templateUrl : 'upload.html',
-    controller : function ($scope) {
-
-    }
+  .when('/uploads', {
+      templateUrl: 'upload.html',
+      controller : function ($scope, $http, $window) {
+          $scope.submit = function () {
+              var req = {
+                  method: 'POST',
+                  url: 'api/reciply',
+                  data: {
+                      name          : $scope.title,
+                      profile       : $scope.$parent.profile,
+                      author        : $scope.$parent.profile._id,
+                      picture       : $scope.picture,
+                      video         : $scope.video,
+                      description   : $scope.description,
+                      ingredients   : $scope.ingredients,
+                      steps         : $scope.steps
+                  }
+              }
+              $http(req);
+              $window.location.href ='/';
+          };
+          $scope.cancel =function() {
+            $scope.title = '';
+            $scope.$parent.profile = '';
+            $scope.$parent.profile._id = '';
+            $scope.picture = '';
+            $scope.video = '';
+            $scope.description = '';
+            $scope.ingredients = null;
+            $scope.steps = null;
+            $window.history.back();
+        };
+      }
   })
   .when('/editprofile',{
     templateUrl : 'editprofile.html',
@@ -186,8 +214,6 @@ myapp.controller('mainController',function($scope,$http, $window) {
 
 // -------- Sine --------
 myapp.controller("SearchController", function($scope, $http, $window) {
-    console.log("Search Field");
-    console.log($scope.searchkey);
   $scope.searchAll = function() {
       console.log("Search Field submit");
     $http.post('/api/reciplySearch',{
@@ -195,10 +221,11 @@ myapp.controller("SearchController", function($scope, $http, $window) {
     }).then(function(data) {
         console.log($scope);
         $scope.$parent.reciplys = data.data.reciplys;
-        window.location="#reciplemini.html";
+        //$window.location="#reciplemini.html";
     }).catch(function(err) {
       $window.alert('cannot search : ' + err);
     });
   };
 });
+
 // --------- End ----------

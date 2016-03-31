@@ -1,6 +1,7 @@
 var reciplycontrol = require('./reciplycontrol');
 module.exports = {
     create : function (req,res,next) {
+        console.log(req.body);
         reciplycontrol.create(req).then(function() {
             res.sendStatus(200);
         }).catch(function(err) {

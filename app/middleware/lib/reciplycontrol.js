@@ -43,6 +43,7 @@ module.exports = {
         reci.author = req.user._id;
         reci.userprofile = req.user.profile;
         reci.picture = req.body.picture || '';
+        reci.video = req.body.video || '';
         reci.name = req.body.name || '';
         reci.publish = new Date();
         reci.lastmodfide = new Date();
@@ -65,7 +66,8 @@ module.exports = {
     getall : function() {
         return new Promise(function(resolve, reject) {
             Reciply.find({})
-            .sort({lastmodfide : -1})
+            // sort by last modified
+            //.sort({lastmodfied : -1})
             .populate('userprofile')
             .exec(function(err,reciplys) {
                 if(err){

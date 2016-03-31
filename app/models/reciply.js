@@ -3,6 +3,7 @@ var uuid = require('node-uuid');
 
 var reciplySchema = mongoose.Schema({
   picture     : String,
+  video       : String,
   publish     : {type : Date, default : new Date()},
   lastmodfide : {type : Date, default : new Date()},
   name        : String,

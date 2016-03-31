@@ -3537,7 +3537,7 @@ hr {
 
 #image-preview {
   width: 400px;
-  height: 400px;
+  min-height: 200px;
   position: relative;
   overflow: hidden;
   background-color: #ffffff;
