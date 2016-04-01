@@ -257,8 +257,9 @@ myapp.controller("StepController", function($scope, $window) {
     });
   };
   $scope.addOne = function(steps, $index) {
-      $scope.$parent.steps[$index].picture =  steps[$index].picture;
-      $scope.$parent.steps[$index].detail =  steps[$index].detail;
+      $scope.$parent.steps[$index].picture = steps[$index].picture;
+      $scope.$parent.steps[$index].detail = steps[$index].detail;
+      $scope.$parent.steps[$index].stepNum = $index;
       console.dir(steps);
   };
   $scope.remove = function (steps, $index) {
