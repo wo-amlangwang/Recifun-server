@@ -67,7 +67,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             Reciply.find({})
             // sort by last modified
-            //.sort({lastmodfied : -1})
+            .sort({lastmodfied : -1})
             .populate('userprofile')
             .exec(function(err,reciplys) {
                 if(err){
@@ -83,6 +83,7 @@ module.exports = {
             Reciply.findOne({_id : req.body._id || req.params._id})
             .populate('userprofile')
             .exec(function(err, reciply) {
+                console.log("getOne reciply: " + reciply);
                 if(err){
                     reject(err);
                 }else {

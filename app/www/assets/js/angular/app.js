@@ -116,6 +116,7 @@ myapp.config(function($routeProvider, $locationProvider){
       templateUrl: 'upload.html',
       controller : function ($scope, $http, $window) {
           $scope.submit = function () {
+
               var req = {
                   method: 'POST',
                   url: 'api/reciply',
@@ -123,7 +124,7 @@ myapp.config(function($routeProvider, $locationProvider){
                       name          : $scope.title,
                       profile       : $scope.$parent.profile,
                       author        : $scope.$parent.profile._id,
-                      picture       : $scope.picture,
+                      picture       : $scope.file,
                       video         : $scope.video,
                       description   : $scope.description,
                       ingredients   : $scope.ingredients,
@@ -167,6 +168,7 @@ myapp.config(function($routeProvider, $locationProvider){
   .otherwise({
     templateUrl: 'reciplemini.html',
     controller: function ($scope) {
+        console.log($scope);
       $scope.$parent.thisreciplys.then(function () {
         $scope.reciplys = $scope.$parent.reciplys;
       });
@@ -221,11 +223,34 @@ myapp.controller("SearchController", function($scope, $http, $window) {
     }).then(function(data) {
         console.log($scope);
         $scope.$parent.reciplys = data.data.reciplys;
-        //$window.location="#reciplemini.html";
+        $window.location="#reciplemini.html";
     }).catch(function(err) {
       $window.alert('cannot search : ' + err);
     });
   };
 });
 
+myapp.controller("IngredientController", function($scope, $window) {
+  $scope.ingredients = [];
+  $scope.addOneIng = function() {
+    $scope.ingredients.push({
+        text: ""
+    });
+  };
+  $scope.remove = function (ingredient) {
+    $scope.ingredients.splice(ingredient, 1);
+  };
+});
+
+myapp.controller("StepController", function($scope, $window) {
+  $scope.steps = [];
+  $scope.addOneStep = function() {
+    $scope.steps.push({
+    });
+  };
+  $scope.remove = function (step) {
+    $scope.steps.splice(step, 1);
+  };
+  console.log($scope);
+});
 // --------- End ----------

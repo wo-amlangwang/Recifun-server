@@ -1,96 +1,95 @@
 <article class="post">
-<header>
-	<div class="title">
-		<h2><a href='#' >Create a recipe </a></h2>
-	</div>
-</header>
-
-<form method="post">
-	<h3>Recipe Title</h3>
-	<input id="recipe title" type="text" name="name" ng-model="title" placeholder="Recipe Title">
-	</br>
-<h3>Recipe Photo</h3>
-<!-- Recipe Photo -->
-<div id="image-preview" ng-controller="ImageUploadController">
-	<label for="image-upload" id="image-label">Choose File</label>
-	<input id="image upload"
-		   type="file"
-		   ngf-select
-		   ng-model="up.picture"
-		   ngf-pattern="image/*"
-		   accept="image/*"
-		   ngf-max-size="20MB" />
-	<img id="recipeImg" class="image" ng-src="{{imageSrc}}" width="100%" align="center" />
-</div>
-</br>
-<h3>Description</h3>
-<span class="12u$">
-	<textarea onclick="$(this).focus();" name="demo-message" ng-model="description"></textarea>
-</span>
-</br>
-
-<!-- Uplaod video by Youtube Embed -->
-<div>
 	<header>
 		<div class="title">
-			<h3>Video URL</h3>
-			<p>Click share under the video. Choose "Enbed" and copy the URL only in the textfeild.</p>
+			<h2><a href='#' >Create a recipe </a></h2>
 		</div>
 	</header>
-	<input id="videoURL" type="text" name="title" value="" ng-model="video" placeholder='URL in the src = ?'>
-</div>
-</br>
 
-<div class="upfood clearfix">
-	<div class="foicp pvl clearfix libufo">
+	<form>
+		<h3>Recipe Title</h3>
+		<input id="recipe title" type="text" name="name" ng-model="title" placeholder="Recipe Title">
+		</br>
+		<h3>Recipe Photo</h3>
+		<!-- Recipe Photo -->
+		<div id="image-preview" >
+			<label for="image-upload" id="image-label">Choose File</label>
+			<input id="image upload"
+				   type="file"
+				   ngf-select
+				   ng-model="up.file"
+				   name="file"
+				   ngf-pattern="image/*"
+				   accept="image/*"
+				   ngf-max-size="20MB" />
+			<img id="recipeImg" class="image" ng-src="{{imageSrc}}" width="100%" align="center" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+		</div>
+		</br>
+		<h3>Description</h3>
+		<span class="12u$">
+			<textarea onclick="$(this).focus();" name="demo-message" ng-model="description"></textarea>
+		</span>
+		</br>
+
+		<!-- Uplaod video by Youtube Embed -->
+		<div>
+			<header>
+				<div class="title">
+					<h3>Video URL</h3>
+					<p>Click share under the video. Paste the URL here.</p>
+				</div>
+			</header>
+			<input id="video" type="text" name="title" value="" ng-model="video" placeholder='URL'>
+		</div>
+		</br>
+
 		<!-- ingradient table -->
-		<div class="ingredient table">
+		<div id="ingredient table" ng-controller="IngredientController">
 			<section>
 				<h3>Ingradients</h3>
-				<div class="row uniform">
+				<div class="row uniform" ng-repeat ="ingredient in ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
-							<input type="text" name="demo-name" id="demo-name" ng-model="ingredient" value="" placeholder="Gradient name" />
+							<input type="text" ng-model="ingredient.name" value="" placeholder="Ingredient" />
 					</div>
 					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
-							<input type="text" name="demo-name" id="demo-name" ng-model="quantity" value="" placeholder="Quantity" />
+							<input type="text" ng-model="ingredient.quantity" value="" placeholder="Quantity" />
 					</div>
+					<a ng-click="remove(ingredient)">remove</a>
+					</br></br></br>
+				</div>
+				<div style="display:block;">
+					 <button class="button small" ng-click="addOneIng()" tabindex="-1">Add ingredient</button>
 				</div>
 			</section>
 		</br>
 		</div>
+
 		<!-- step -->
-		<div>
-			<div>
-				<h3>Steps</h3>
-					<span>Step 1</span>
-						<div>
-							<div id="image-preview">
-								<label for="image-upload" id="image-label">Choose File</label>
-								<input id="image upload" type='file' onchange="readURL(this);" />
-								<img id="step1" class="image" ng-model="pictureStep" width="100%" align="center" />
-							</div>
-							<!--<div><button class="remove image" id="remove image" onclick="removeImage()">Remove</button></div>-->
-						</br>
-						</div>
-						<span class="12u$">
-							<textarea onclick="$(this).focus();" name="demo-message" ng-model="detail" id="demo-message"></textarea>
-						</span>
-					</li>
-				</ul>
+		<div ng-controller="StepController">
+			<h3>Steps</h3>
+			<div ng-repeat="step in steps">
+				<div id="image-preview">
+					<label for="image-upload" id="image-label">Choose File</label>
+					<input id="image upload" type='file' ng-model="step.picture" />
+					<img id="step1" class="image" ng-model="pictureStep" width="100%" align="center" />
+				</div>
+				</br>
+				<span class="12u$">
+					<textarea onclick="$(this).focus();" ng-model="step.detail"></textarea>
+				</span>
+				<a ng-click="remove(step)">remove</a>
+				</br>
 				</br>
 			</div>
+			<div style="display:block;">
+				 <a class="button small"  ng-click="addOneStep()" tabindex="-1" id="addBuZhou">Add step</a>
+			</div>
+			</br>
 		</div>
-		<div style="display:block;">
-			 <a class="button small"  href="javascript:void(0);" tabindex="-1" id="addBuZhou">Add more steps</a>
+		<div>
+			<input type="submit" class="button large" id="upload" ng-click="submit()">
+			<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>
 		</div>
-		</br>
-	</div>
-</div>
-<div>
-	<input type="submit" class="button large" id="upload" ng-click="submit()">
-	<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>
-</div>
-<!-- Sidebar -->
-<section id="sidebar"></section>
-</form>
+		<!-- Sidebar -->
+		<section id="sidebar"></section>
+	</form>
 </article>
