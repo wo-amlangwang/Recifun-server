@@ -116,7 +116,9 @@ myapp.config(function($routeProvider, $locationProvider){
       templateUrl: 'upload.html',
       controller : function ($scope, $http, $window) {
           $scope.submit = function () {
-
+              console.dir($scope);
+              console.dir($scope.ingredients);
+              console.dir($scope.steps);
               var req = {
                   method: 'POST',
                   url: 'api/reciply',
@@ -174,7 +176,6 @@ myapp.config(function($routeProvider, $locationProvider){
       });
       $scope.clickthis = function(n) {
         $scope.$parent.large = n;
-
       };
     }
   });
@@ -231,25 +232,38 @@ myapp.controller("SearchController", function($scope, $http, $window) {
 });
 
 myapp.controller("IngredientController", function($scope, $window) {
-  $scope.ingredients = [];
+  $scope.$parent.ingredients = [];
   $scope.addOneIng = function() {
     $scope.ingredients.push({
-        text: ""
     });
   };
-  $scope.remove = function (ingredient) {
-    $scope.ingredients.splice(ingredient, 1);
+  $scope.addOne = function(ingredients, $index) {
+      console.dir($scope.$parent);
+      $scope.$parent.ingredients[$index].name = ingredients[$index].name;
+      $scope.$parent.ingredients[$index].quantity =  ingredients[$index].quantity;
+      console.dir(ingredients);
+  };
+  $scope.remove = function (ingredients, $index) {
+    $scope.ingredients.splice($index, 1);
+    console.dir(ingredients);
+
   };
 });
 
 myapp.controller("StepController", function($scope, $window) {
-  $scope.steps = [];
+  $scope.$parent.steps = [];
   $scope.addOneStep = function() {
-    $scope.steps.push({
+      $scope.steps.push({
     });
   };
-  $scope.remove = function (step) {
-    $scope.steps.splice(step, 1);
+  $scope.addOne = function(steps, $index) {
+      $scope.$parent.steps[$index].picture =  steps[$index].picture;
+      $scope.$parent.steps[$index].detail =  steps[$index].detail;
+      console.dir(steps);
+  };
+  $scope.remove = function (steps, $index) {
+    $scope.steps.splice($index, 1);
+    console.dir(ingredients);
   };
   console.log($scope);
 });

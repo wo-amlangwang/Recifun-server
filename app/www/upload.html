@@ -46,18 +46,19 @@
 		<div id="ingredient table" ng-controller="IngredientController">
 			<section>
 				<h3>Ingradients</h3>
-				<div class="row uniform" ng-repeat ="ingredient in ingredients">
+				<div class="row uniform" ng-repeat ="ingredient in ingredients track by $index" ng-model="ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
 							<input type="text" ng-model="ingredient.name" value="" placeholder="Ingredient" />
 					</div>
 					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
 							<input type="text" ng-model="ingredient.quantity" value="" placeholder="Quantity" />
 					</div>
+					<a ng-click="addOne(ingredients, $index)">add</a><p>    </p>
 					<a ng-click="remove(ingredient)">remove</a>
 					</br></br></br>
 				</div>
 				<div style="display:block;">
-					 <button class="button small" ng-click="addOneIng()" tabindex="-1">Add ingredient</button>
+					 <button class="button small" ng-click="addOneIng($index)" tabindex="-1">Add ingredient</button>
 				</div>
 			</section>
 		</br>
@@ -66,29 +67,29 @@
 		<!-- step -->
 		<div ng-controller="StepController">
 			<h3>Steps</h3>
-			<div ng-repeat="step in steps">
+			<div ng-repeat="step in steps track by $index" ng-model="steps">
 				<div id="image-preview">
 					<label for="image-upload" id="image-label">Choose File</label>
 					<input id="image upload" type='file' ng-model="step.picture" />
-					<img id="step1" class="image" ng-model="pictureStep" width="100%" align="center" />
+					<img id="step1" class="image" width="100%" align="center" />
 				</div>
 				</br>
 				<span class="12u$">
 					<textarea onclick="$(this).focus();" ng-model="step.detail"></textarea>
 				</span>
-				<a ng-click="remove(step)">remove</a>
-				</br>
+				<div class="row uniform">
+					<a ng-click="addOne(steps, $index)">add</a><p>    </p>
+					<a ng-click="remove(step)">remove</a>
+				</div>
 				</br>
 			</div>
 			<div style="display:block;">
-				 <a class="button small"  ng-click="addOneStep()" tabindex="-1" id="addBuZhou">Add step</a>
+				 <a class="button small"  ng-click="addOneStep($index)" tabindex="-1" id="addBuZhou">Add step</a>
 			</div>
 			</br>
 		</div>
-		<div>
-			<input type="submit" class="button large" id="upload" ng-click="submit()">
-			<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>
-		</div>
+		<input type="submit" class="button large" id="upload" ng-click="submit()">
+		<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>
 		<!-- Sidebar -->
 		<section id="sidebar"></section>
 	</form>
