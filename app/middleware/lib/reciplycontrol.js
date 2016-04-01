@@ -66,7 +66,6 @@ module.exports = {
     getall : function() {
         return new Promise(function(resolve, reject) {
             Reciply.find({})
-            // sort by last modified
             .sort({lastmodfied : -1})
             .populate('userprofile')
             .exec(function(err,reciplys) {
