@@ -130,7 +130,6 @@ myapp.config(function($routeProvider, $locationProvider){
                           name          : $scope.title,
                           profile       : $scope.$parent.profile,
                           author        : $scope.$parent.profile._id,
-                          picture       : $scope.file,
                           video         : $scope.video,
                           description   : $scope.description,
                           ingredients   : $scope.ingredients,
@@ -346,10 +345,11 @@ myapp.controller("StepController", function($scope, $window) {
         $scope.steps.push({
         });
     };
-    $scope.addOne = function(steps, $index) {
-        $scope.$parent.steps[$index].picture = steps[$index].picture;
-        $scope.$parent.steps[$index].detail = steps[$index].detail;
-        $scope.$parent.steps[$index].stepNum = $index;
+    $scope.addOne = function(steps) {
+        for (var i = 0; i < steps.length; i++) {
+            $scope.$parent.steps[i].detail = steps[i].detail;
+            $scope.$parent.steps[i].stepNum = i;
+        }
         console.dir(steps);
     };
     $scope.remove = function (steps, $index) {

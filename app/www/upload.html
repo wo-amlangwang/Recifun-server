@@ -32,6 +32,7 @@
 		<div id="ingredient table" ng-controller="IngredientController">
 			<section>
 				<h3>Ingradients</h3>
+				<p>Please rember to confirm all ingredients!</p>
 				<div class="row uniform" ng-repeat ="ingredient in ingredients track by $index" ng-model="ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
 							<input type="text" required ng-model="ingredient.name" value="" placeholder="Ingredient*" />
@@ -39,8 +40,8 @@
 					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
 							<input type="text" required ng-model="ingredient.quantity" value="" placeholder="Quantity*" />
 					</div>
-					<a  ng-click="addOne(ingredients, $index)" ng-show="$last">add</a>
-					<a  ng-click="remove(ingredient)">remove</a>
+					<a  ng-click="remove(ingredient, $index)">remove</a>
+					<a  ng-click="addOne(ingredients, $index)" ng-show="$last">Confirm Ingredients</a>
 					</br></br></br>
 				</div>
 				<div style="display:block;">
@@ -53,13 +54,14 @@
 		<!-- step -->
 		<div ng-controller="StepController">
 			<h3>Steps</h3>
+			<p>Please rember to confirm all steps!</p>
 			<div ng-repeat="step in steps track by $index" ng-model="steps">
 				<span class="12u$">
 					<textarea onclick="$(this).focus();" required ng-model="step.detail" placeholder="Step Detail*"></textarea>
 				</span>
 				<div class="row uniform">
-					<a ng-click="addOne(steps, $index)" ng-show="$last">add</a>
-					<a ng-click="remove(step)">remove</a>
+					<a ng-click="remove(step, $index)">remove</a>
+					<a ng-click="addOne(steps)" ng-show="$last">Confirm steps</a>
 				</div>
 				</br>
 			</div>
