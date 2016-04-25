@@ -31,8 +31,12 @@
 		<!-- ingradient table -->
 		<div id="ingredient table" ng-controller="IngredientController">
 			<section>
-				<h3>Ingradients</h3>
-				<p>Please rember to confirm all ingredients!</p>
+				<header>
+					<div class="title">
+						<h3>Ingradients</h3>
+						<p>Please rember to confirm all ingredients! You need to write at least 1 ingredient!</p>
+					</div>
+				</header>
 				<div class="row uniform" ng-repeat ="ingredient in ingredients track by $index" ng-model="ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
 							<input type="text" required ng-model="ingredient.name" value="" placeholder="Ingredient*" />
@@ -42,8 +46,8 @@
 					</div>
 					<a  ng-click="remove(ingredient, $index)">remove</a>
 					<a  ng-click="addOne(ingredients, $index)" ng-show="$last">Confirm Ingredients</a>
-					</br></br></br>
 				</div>
+				</br>
 				<div style="display:block;">
 					 <button class="button small" ng-click="addOneIng($index)" tabindex="-1">Add ingredient</button>
 				</div>
@@ -53,8 +57,12 @@
 
 		<!-- step -->
 		<div ng-controller="StepController">
-			<h3>Steps</h3>
-			<p>Please rember to confirm all steps!</p>
+			<header>
+				<div class="title">
+					<h3>Steps</h3>
+					<p>Please rember to confirm all steps! You need to write at least 1 step!</p>
+				</div>
+			</header>
 			<div ng-repeat="step in steps track by $index" ng-model="steps">
 				<span class="12u$">
 					<textarea onclick="$(this).focus();" required ng-model="step.detail" placeholder="Step Detail*"></textarea>
