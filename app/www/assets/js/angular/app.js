@@ -361,18 +361,20 @@ myapp.controller("StepController", function($scope, $window) {
 
 myapp.controller("FavoriteController", function($scope, $window, $http) {
 
-    $http.post('/api/liked',{
-      recipe  : $scope.$parent.large
-    }).then(function(data) {
-        // +1
-        if (data.data.favorite == null) {
-            $scope.liked = false;
-        } else {
-            $scope.liked = true;
-        }
-    }).catch(function(err) {
-        $window.alert('Server Error!');
-    });
+    if($scope.$parent.userislogin == true) {
+        $http.post('/api/liked',{
+          recipe  : $scope.$parent.large
+        }).then(function(data) {
+            // +1
+            if (data.data.favorite == null) {
+                $scope.liked = false;
+            } else {
+                $scope.liked = true;
+            }
+        }).catch(function(err) {
+            $window.alert('Server Error!');
+        });
+    }
 
     $scope.like = function() {
         if($scope.$parent.userislogin == true) {
@@ -404,4 +406,43 @@ myapp.controller("FavoriteController", function($scope, $window, $http) {
         }
     }
 });
+
+myapp.controller("CommentController", function($scope, $window, $http) {
+    console.log($scope);
+    $scope.comments = [];
+    $http.post('/api/getComments',{
+      recipe  : $scope.$parent.large,
+    }).then(function(data) {
+        $scope.comments = data.data.comments;
+    }).catch(function(err) {
+        $window.alert('Server Error!');
+    });
+
+    $scope.submit = function (contents) {
+        console.log(contents);
+        if (!$scope.commentEdit.$valid) {
+            $scope.submitted = true;
+        } else {
+            $http.post('/api/comment', {
+                recipe : $scope.$parent.large,
+                contents : contents,
+                commPicture : $scope.$parent.profile.picture,
+                commName : $scope.$parent.profile.nickname,
+                commUser : $scope.$parent.profile.user
+            }).then(function(data) {
+                $scope.contents = "";
+                $http.post('/api/getComments',{
+                  recipe  : $scope.$parent.large,
+                }).then(function(data) {
+                    $scope.comments = data.data.comments;
+                }).catch(function(err) {
+                    $window.alert('Server Error!');
+                });
+            }).catch(function(err) {
+                $window.alert('Server Error!');
+            });
+        }
+    };
+});
+
 // --------- End ----------

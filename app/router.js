@@ -103,4 +103,8 @@ module.exports = function(app,passport) {
   app.post('/api/unlike',middleware.isAuthenticated,middleware.favorite.remove);
   app.post('/api/liked',middleware.isAuthenticated,middleware.favorite.liked);
   app.post('/api/myFavorites',middleware.isAuthenticated,middleware.favorite.getFavorites);
+
+  app.post('/api/comment',middleware.isAuthenticated,middleware.comment.create);
+  app.post('/api/deleteComment',middleware.isAuthenticated,middleware.comment.remove);
+  app.post('/api/getComments',middleware.comment.getComments);
 };

@@ -66,7 +66,52 @@
               <p>{{n.detail}}</p>
           </div>
       </article>
-      <ul class="actions pagination">
-          <button ng-click="back()" class="button big previous">back</button>
+
+</article>
+
+<article class="post" ng-controller="CommentController">
+
+      <div class="title">
+          <h2>Write a Comment</h2>
+      </div>
+
+          <form name="commentEdit" class="row uniform"  ng-submit="submit(contents)" novalidate>
+              <a href="#" class="author"><img ng-src={{profile.picture}} alt="" /></a>
+              <a href="#" class="author"><span class="name">{{ profile.nickname }}</span></a>
+              <div class="12u$">
+                  <textarea name="demo-message" id="demo-message" placeholder="Enter your message*" required ng-model="contents" rows="6"></textarea>
+              </div>
+              <div class="12u$">
+                <input type="submit"  value="Send Message" />
+                <span ng-show="submitted && profileEdit.$invalid">&nbsp;&nbsp;&nbsp;Please fill required fields.</span>
+              </div>
+          </form>
+      </br></br>
+
+      <div class="title">
+          <h2>Comments</h2>
+      </div>
+      </br>
+
+      <ul class="posts">
+          <li ng-repeat ="n in comments | orderBy:'-lastmodfide'">
+              <article>
+                  <header>
+                      <h3><a href="#">{{n.commName}}</a></h3>
+                      <p>{{n.lastmodfide | date:'medium'}}</p>
+                      <p>{{n.contents}}</p>
+                  </header>
+                  <img class="image" ng-src={{n.commPicture}} alt="" />
+              </article>
+          </li>
       </ul>
+
+</article>
+
+<article  class="post">
+    <ul class="actions pagination">
+        <button ng-click="back()" class="button big previous">back</button>
+    </ul>
+
+
 </article>
