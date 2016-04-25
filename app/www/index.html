@@ -65,23 +65,23 @@
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="#myRecipe">
 									<h3>My recipes</h3>
 									<p>The recipes uploaded by yourself</p>
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="#myFavorite">
 									<h3>Favorite</h3>
 									<p>The recipes you saved</p>
 								</a>
 							</li>
-							<li>
+							<!-- <li>
 								<a href="#">
 									<h3>Message</h3>
 									<p>Notification, commands, etc.</p>
 								</a>
-							</li>
+							</li> -->
 						</ul>
 					</section>
 				</div>
@@ -90,7 +90,7 @@
 				<section ng-show = "!userislogin">
 					<ul class="actions vertical">
 					<!-- Login -->
-						<form id="login" ng-submit="submit()" ng-controller = "loginController">
+						<form id="login" ng-submit="submit()" ng-controller="loginController">
 							<div id="loginTextField">
 								<input type="text" name="demo-name" id="demo-name" required ng-model="username" placeholder="Username" />
 								</br>
@@ -152,6 +152,8 @@
 		<script src="assets/js/main.js"></script>
 		<script src="assets/js/angular/app.js"></script>
 		<link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<script src="assets/js/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+		<script src="assets/js/ng-file-upload.min.js"></script>
 
 	</body>
 </html>

@@ -100,6 +100,7 @@ myapp.controller('reciplyController', function($scope,$http, $window) {
     console.log(n);
   };
 });
+
 myapp.config(function($routeProvider, $locationProvider){
   $routeProvider
   .when('/reciply/:reciplyId',{
@@ -116,25 +117,30 @@ myapp.config(function($routeProvider, $locationProvider){
       templateUrl: 'upload.html',
       controller : function ($scope, $http, $window) {
           $scope.submit = function () {
-              console.dir($scope);
-              console.dir($scope.ingredients);
-              console.dir($scope.steps);
-              var req = {
-                  method: 'POST',
-                  url: 'api/reciply',
-                  data: {
-                      name          : $scope.title,
-                      profile       : $scope.$parent.profile,
-                      author        : $scope.$parent.profile._id,
-                      picture       : $scope.file,
-                      video         : $scope.video,
-                      description   : $scope.description,
-                      ingredients   : $scope.ingredients,
-                      steps         : $scope.steps
+              if (!$scope.recipeDetail.$valid || $scope.ingredients == [] || $scope.steps == []) {
+                  $scope.submitted = true;
+              } else {
+                  console.dir($scope);
+                  console.dir($scope.ingredients);
+                  console.dir($scope.steps);
+                  var req = {
+                      method: 'POST',
+                      url: 'api/reciply',
+                      data: {
+                          name          : $scope.title,
+                          profile       : $scope.$parent.profile,
+                          author        : $scope.$parent.profile._id,
+                          picture       : $scope.file,
+                          video         : $scope.video,
+                          description   : $scope.description,
+                          ingredients   : $scope.ingredients,
+                          steps         : $scope.steps,
+                          lastmodfide   : new Date()
+                      }
                   }
+                  $http(req);
+                  $window.location.href ='/';
               }
-              $http(req);
-              $window.location.href ='/';
           };
           $scope.cancel =function() {
             $scope.title = '';
@@ -145,7 +151,7 @@ myapp.config(function($routeProvider, $locationProvider){
             $scope.description = '';
             $scope.ingredients = null;
             $scope.steps = null;
-            $window.history.back();
+            $window.location.href ='/';
         };
       }
   })
@@ -153,19 +159,91 @@ myapp.config(function($routeProvider, $locationProvider){
     templateUrl : 'editprofile.html',
     controller : function ($scope,$http,$window) {
       $scope.submit = function () {
-        $scope.$parent.profile.nickname = $scope.nickname;
-        $scope.$parent.profile.email = $scope.email;
-        $http.patch('/api/profile',{
-          profile  : $scope.$parent.profile,
-        });
-        $window.location.href ='/';
+          if (!$scope.profileEdit.$valid) {
+              $scope.submitted = true;
+          } else {
+              $scope.$parent.profile.nickname = $scope.nickname;
+              $scope.$parent.profile.email = $scope.email;
+              $http.patch('/api/profile',{
+                  profile  : $scope.$parent.profile,
+              });
+              $window.location.href ='/';
+          }
       };
       $scope.cancel =function() {
         $scope.nickname = '';
         $scope.email = '';
-        $window.history.back();
+        $window.location.href ='/';
       };
     }
+  })
+  .when('/myRecipe',{
+      templateUrl: 'reciplemini.html',
+      controller: function ($scope, $http) {
+          console.log($scope.$parent.profile.user);
+          $http({
+            method: 'POST',
+            url: '/api/myReciplys',
+            data: {
+                userid : $scope.$parent.profile.user
+            }
+          }).then(function (response) {
+            $scope.reciplys = response.data.reciplys;
+            $scope.imgUrl = [];
+            for (var i = 0; i < $scope.reciplys.length; i++) {
+                if (i % 4 == 1) {
+                    $scope.imgUrl.push("images/pic03.jpg");
+                } else if (i % 4 == 2) {
+                    $scope.imgUrl.push("images/pic04.jpg");
+                } else if (i % 4 == 3) {
+                    $scope.imgUrl.push("images/pic07.jpg");
+                } else {
+                    $scope.imgUrl.push("images/pic01.jpg");
+                } console.log("for loop" + i + " " + $scope.imgUrl[i]);
+            }
+          });
+          $scope.mini = true;
+          $scope.clickthis = function(n) {
+            $scope.mini = false;
+            $scope.large = n;
+            console.log(n);
+          };
+      }
+  })
+  .when('/myFavorite',{
+      templateUrl: 'reciplemini.html',
+      controller: function ($scope, $http) {
+          console.log($scope.$parent.profile.user);
+          $http({
+              method: 'POST',
+              url: '/api/myFavorites',
+              data : {
+                  userid : $scope.$parent.profile.user
+              }
+          }).then(function (response) {
+              $scope.favorites = response.data.favorites;
+              $scope.reciplys = [];
+              $scope.imgUrl = [];
+              for (var i = 0; i <  $scope.favorites.length; i++) {
+                  $scope.reciplys[i] = $scope.favorites[i].recipe;
+                  if (i % 4 == 1) {
+                      $scope.imgUrl.push("images/pic03.jpg");
+                  } else if (i % 4 == 2) {
+                      $scope.imgUrl.push("images/pic04.jpg");
+                  } else if (i % 4 == 3) {
+                      $scope.imgUrl.push("images/pic07.jpg");
+                  } else {
+                      $scope.imgUrl.push("images/pic01.jpg");
+                  }
+              }
+          });
+          $scope.mini = true;
+          $scope.clickthis = function(n) {
+            $scope.mini = false;
+            $scope.large = n;
+            console.log(n);
+          };
+      }
   })
   .otherwise({
     templateUrl: 'reciplemini.html',
@@ -173,6 +251,18 @@ myapp.config(function($routeProvider, $locationProvider){
         console.log($scope);
       $scope.$parent.thisreciplys.then(function () {
         $scope.reciplys = $scope.$parent.reciplys;
+        $scope.imgUrl = [];
+        for (var i = 0; i < $scope.reciplys.length; i++) {
+            if (i % 4 == 1) {
+                $scope.imgUrl.push("images/pic03.jpg");
+            } else if (i % 4 == 2) {
+                $scope.imgUrl.push("images/pic04.jpg");
+            } else if (i % 4 == 3) {
+                $scope.imgUrl.push("images/pic07.jpg");
+            } else {
+                $scope.imgUrl.push("images/pic01.jpg");
+            } console.log("for loop" + i + " " + $scope.imgUrl[i]);
+        }
       });
       $scope.clickthis = function(n) {
         $scope.$parent.large = n;
@@ -182,7 +272,7 @@ myapp.config(function($routeProvider, $locationProvider){
 });
 
 
-myapp.controller('mainController',function($scope,$http, $window) {
+myapp.controller('mainController',function($scope, $http, $window) {
   $scope.thisreciplys = $http({
     method: 'GET',
     url: '/api/reciplys'
@@ -251,21 +341,67 @@ myapp.controller("IngredientController", function($scope, $window) {
 });
 
 myapp.controller("StepController", function($scope, $window) {
-  $scope.$parent.steps = [];
-  $scope.addOneStep = function() {
-      $scope.steps.push({
+    $scope.$parent.steps = [];
+    $scope.addOneStep = function() {
+        $scope.steps.push({
+        });
+    };
+    $scope.addOne = function(steps, $index) {
+        $scope.$parent.steps[$index].picture = steps[$index].picture;
+        $scope.$parent.steps[$index].detail = steps[$index].detail;
+        $scope.$parent.steps[$index].stepNum = $index;
+        console.dir(steps);
+    };
+    $scope.remove = function (steps, $index) {
+        $scope.steps.splice($index, 1);
+        console.dir(ingredients);
+    };
+    console.log($scope);
+});
+
+myapp.controller("FavoriteController", function($scope, $window, $http) {
+
+    $http.post('/api/liked',{
+      recipe  : $scope.$parent.large
+    }).then(function(data) {
+        // +1
+        if (data.data.favorite == null) {
+            $scope.liked = false;
+        } else {
+            $scope.liked = true;
+        }
+    }).catch(function(err) {
+        $window.alert('Server Error!');
     });
-  };
-  $scope.addOne = function(steps, $index) {
-      $scope.$parent.steps[$index].picture = steps[$index].picture;
-      $scope.$parent.steps[$index].detail = steps[$index].detail;
-      $scope.$parent.steps[$index].stepNum = $index;
-      console.dir(steps);
-  };
-  $scope.remove = function (steps, $index) {
-    $scope.steps.splice($index, 1);
-    console.dir(ingredients);
-  };
-  console.log($scope);
+
+    $scope.like = function() {
+        if($scope.$parent.userislogin == true) {
+            $http.post('/api/like',{
+              recipe  : $scope.$parent.large
+            }).then(function(data) {
+                // +1
+                $scope.liked = true;
+            }).catch(function(err) {
+                $window.alert('Server Error!');
+            });
+        } else {
+            $window.alert('Please Login!');
+        }
+    }
+
+    $scope.unlike = function() {
+        if($scope.$parent.userislogin == true) {
+            $http.post('/api/unlike',{
+              recipe  : $scope.$parent.large
+            }).then(function(data) {
+                // -1
+                $scope.liked = false;
+            }).catch(function(err) {
+                $window.alert('Server Error!');
+            });
+        } else {
+            $window.alert('Please Login!');
+        }
+    }
 });
 // --------- End ----------

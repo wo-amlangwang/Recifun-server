@@ -15,6 +15,13 @@ module.exports = {
             res.sendStatus(500);
         });
     },
+    getMine : function (req,res,next) {
+        reciplycontrol.getMine(req).then(function(reciplys) {
+            res.status(200).send({ 'reciplys' : reciplys});
+        }).catch(function (err) {
+            res.sendStatus(500);
+        });
+    },
     getOne : function (req,res,next) {
         reciplycontrol.getOne(req).then(function (reciply) {
             res.status(200).send({'reciply' : reciply});

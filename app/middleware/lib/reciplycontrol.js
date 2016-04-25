@@ -66,9 +66,23 @@ module.exports = {
     getall : function() {
         return new Promise(function(resolve, reject) {
             Reciply.find({})
-            .sort({lastmodfied : -1})
+            .sort({publish : -1})
             .populate('userprofile')
             .exec(function(err,reciplys) {
+                if(err){
+                    reject(err);
+                }else {
+                    resolve(reciplys);
+                }
+            });
+        });
+    },
+    getMine : function(req) {
+        return new Promise(function(resolve, reject) {
+            Reciply.find({author : req.body.userid})
+            .sort({publish : -1})
+            .populate('userprofile')
+            .exec(function(err, reciplys) {
                 if(err){
                     reject(err);
                 }else {
@@ -114,6 +128,7 @@ module.exports = {
     searchAll : function(req) {
         return new Promise(function(resolve, reject) {
             Reciply.find({name : new RegExp(req.body.searchkey, "i")})
+            .sort({publish : -1})
             .populate('userprofile')
             .exec(function(err, reciplys) {
                 console.log("Matched reciplys: " + reciplys);

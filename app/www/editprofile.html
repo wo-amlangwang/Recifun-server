@@ -1,27 +1,29 @@
 <article class="post">
-<header>
-	<div class="title">
-		<h2><a>Edit Profile </a></h2>
-	</div>
+	<header>
+		<div class="title">
+			<h2><a>Edit Profile </a></h2>
+		</div>
 
-	<!-- User Status -->
-	<div class="meta">
-		<a href="#" class="author"><span class="name">{{$parent.profile.nickname}}</span><img ng-src={{$parent.profile.picture}} alt="" /></a>
-		<List>
-			<a href="#" class="button small">Follow 123</a>
-			<a href="#" class="button small">Follower 321</a>
-		</List>
-	</div>
-</header>
+		<!-- User Status -->
+		<div class="meta">
+			<a href="#" class="author"><span class="name">{{$parent.profile.nickname}}</span><img ng-src={{$parent.profile.picture}} alt="" /></a>
+			<!-- <List>
+				<a href="#" class="button small">Follow 123</a>
+				<a href="#" class="button small">Follower 321</a>
+			</List> -->
+		</div>
+	</header>
 
-<!-- Enter Content Here -->
-
-<input type="text" name="demo-name" id="demo-name" ng-model="nickname" placeholder="Username" />
-</br>
-<input type="email" name="demo-email" id="demo-email" ng-model="email" placeholder="Email" />
-</br>
-<button class="button large" id="upload" ng-click = "submit()" >Submit</button>
-<button class="button large" id="cancel" ng-click = "cancel()" >Cancel</button>
-<!-- Sidebar -->
-<section id="sidebar"></section>
+	<!-- Enter Content Here -->
+	<form name="profileEdit" ng-submit="submit()" novalidate>
+		<input type="text" name="demo-name" id="demo-name" required ng-model="nickname" placeholder="Username*" />
+		</br>
+		<input type="email" name="demo-email" id="demo-email" required ng-model="email" placeholder="Email*" />
+		</br>
+		<button class="button large" id="upload" >Submit</button>
+		<button class="button large" id="cancel" ng-click = "cancel()" >Cancel</button>
+		<span ng-show="submitted && profileEdit.$invalid">&nbsp;&nbsp;&nbsp;Please fill all required fields.</span>
+		<!-- Sidebar -->
+		<section id="sidebar"></section>
+	</form>
 </article>

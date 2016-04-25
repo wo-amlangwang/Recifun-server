@@ -1,32 +1,18 @@
+
 <article class="post">
 	<header>
 		<div class="title">
-			<h2><a href='#' >Create a recipe </a></h2>
+			<h2><a href='' >Create a recipe </a></h2>
 		</div>
 	</header>
 
-	<form>
+	<form name="recipeDetail" ng-submit="submit()" novalidate>
 		<h3>Recipe Title</h3>
-		<input id="recipe title" type="text" name="name" ng-model="title" placeholder="Recipe Title">
-		</br>
-		<h3>Recipe Photo</h3>
-		<!-- Recipe Photo -->
-		<div id="image-preview" >
-			<label for="image-upload" id="image-label">Choose File</label>
-			<input id="image upload"
-				   type="file"
-				   ngf-select
-				   ng-model="up.file"
-				   name="file"
-				   ngf-pattern="image/*"
-				   accept="image/*"
-				   ngf-max-size="20MB" />
-			<img id="recipeImg" class="image" ng-src="{{imageSrc}}" width="100%" align="center" ngf-thumbnail="up.file || '/thumb.jpg'"/>
-		</div>
+		<input id="recipe title" type="text" name="name" required ng-model="title" placeholder="Recipe Title*">
 		</br>
 		<h3>Description</h3>
 		<span class="12u$">
-			<textarea onclick="$(this).focus();" name="demo-message" ng-model="description"></textarea>
+			<textarea onclick="$(this).focus();" name="demo-message" required ng-model="description" placeholder="Description*"></textarea>
 		</span>
 		</br>
 
@@ -48,13 +34,13 @@
 				<h3>Ingradients</h3>
 				<div class="row uniform" ng-repeat ="ingredient in ingredients track by $index" ng-model="ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
-							<input type="text" ng-model="ingredient.name" value="" placeholder="Ingredient" />
+							<input type="text" required ng-model="ingredient.name" value="" placeholder="Ingredient*" />
 					</div>
 					<div id="ingredient-quantity" class="6u 12u$(xsmall)">
-							<input type="text" ng-model="ingredient.quantity" value="" placeholder="Quantity" />
+							<input type="text" required ng-model="ingredient.quantity" value="" placeholder="Quantity*" />
 					</div>
-					<a ng-click="addOne(ingredients, $index)">add</a><p>    </p>
-					<a ng-click="remove(ingredient)">remove</a>
+					<a  ng-click="addOne(ingredients, $index)" ng-show="$last">add</a>
+					<a  ng-click="remove(ingredient)">remove</a>
 					</br></br></br>
 				</div>
 				<div style="display:block;">
@@ -68,17 +54,11 @@
 		<div ng-controller="StepController">
 			<h3>Steps</h3>
 			<div ng-repeat="step in steps track by $index" ng-model="steps">
-				<div id="image-preview">
-					<label for="image-upload" id="image-label">Choose File</label>
-					<input id="image upload" type='file' ng-model="step.picture" />
-					<img id="step1" class="image" width="100%" align="center" />
-				</div>
-				</br>
 				<span class="12u$">
-					<textarea onclick="$(this).focus();" ng-model="step.detail"></textarea>
+					<textarea onclick="$(this).focus();" required ng-model="step.detail" placeholder="Step Detail*"></textarea>
 				</span>
 				<div class="row uniform">
-					<a ng-click="addOne(steps, $index)">add</a><p>    </p>
+					<a ng-click="addOne(steps, $index)" ng-show="$last">add</a>
 					<a ng-click="remove(step)">remove</a>
 				</div>
 				</br>
@@ -88,8 +68,9 @@
 			</div>
 			</br>
 		</div>
-		<input type="submit" class="button large" id="upload" ng-click="submit()">
+		<input type="submit" class="button large" id="upload">
 		<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>
+		<span ng-show="submitted && recipeDetail.$invalid">&nbsp;&nbsp;&nbsp;Please fill all required fields.</span>
 		<!-- Sidebar -->
 		<section id="sidebar"></section>
 	</form>
