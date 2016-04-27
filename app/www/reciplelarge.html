@@ -1,110 +1,114 @@
 <article class="post">
-  <header>
-    <div class="title">
-      <h2>{{large.name}}</h2>
-      <p>Publish on {{large.lastmodfide | date:'medium'}}</p>
-      <!---<p>categories and tags</p>-->
-    </div>
+    <header>
+        <div class="title">
+            <h2>{{large.name}}</h2>
+            <p>Publish on {{large.lastmodfide | date:'medium'}}</p>
+            <!---<p>categories and tags</p>-->
+        </div>
 
-<!-- uploader -->
-    <div class="meta">
-      <div class="author"><span class="name">{{large.userprofile.nickname}}</span><img ng-src={{large.userprofile.picture}} alt="" /></div>
-      <!-- <a href="#" class="button small">Follow</a> -->
-    </div>
-  </header>
+        <!-- uploader -->
+        <div class="meta">
+            <div class="author"><span class="name">{{large.userprofile.nickname}}</span><img ng-src={{large.userprofile.picture}} alt="" /></div>
+            <form ng-controller="FollowController" class="stats">
+                <a class="button small" ng-show="!followed" ng-click="follow()">Follow {{large.userprofile.follower}}</a>
+                <a class="button small" ng-show="followed" ng-click="unfollow()">Unfollow {{large.userprofile.follower}}</a>
+            </form>
+        </div>
+    </header>
 
-<!-- main photo -->
-<form ng-controller="FavoriteController">
-  <article class="post">
-    <h2>Description</h2>
-    <p>{{large.description}}</p>
-    <!-- <a class="button small" type="submit" ng-click="submit()" ng-class="{true: 'filter: invert(100%)', false: 'filter: invert(0%);'}[isActive]">Like</a> -->
-    <footer>
-      <ul class="stats">
-        <a class="icon fa-heart" ng-show="liked" ng-click="unlike()">   I love you too!</a>
-        <a class="fa fa-heart-o" ng-show="!liked" ng-click="like()">   Like me! Like me! Like me!</a>
-      </ul>
-    </footer>
-  </article>
-</form>
+    <!-- main photo -->
+    <form ng-controller="FavoriteController">
+        <article class="post">
+            <h2>Description</h2>
+            <p>{{large.description}}</p>
+            <!-- <a class="button small" type="submit" ng-click="submit()" ng-class="{true: 'filter: invert(100%)', false: 'filter: invert(0%);'}[isActive]">Like</a> -->
+            <footer>
+                <ul class="stats">
+                    <li><a class="icon fa-comment">{{large.comments}}</a></li>
+                    <li><a class="icon fa-heart" ng-show="liked" ng-click="unlike()">I love you too! ( {{large.liked}} people liked )</a>
+                    <a class="fa fa-heart-o" ng-show="!liked" ng-click="like()">Like me! Like me! Like me! ( {{large.liked}} people liked )</a></li>
+                </ul>
+            </footer>
+        </article>
+    </form>
 
-<!-- ingredients table -->
-<article class="post">
-  <section ng-show="large.ingredients.length!==0">
-    <h2>Ingredients</h2>
-    <div class="table-wrapper">
-      <table class="alt">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr  ng-repeat = "n in large.ingredients track by $index">
-            <td>{{n.name}}</td>
-            <td>{{n.quantity}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-  </article>
+    <!-- ingredients table -->
+    <article class="post">
+        <section ng-show="large.ingredients.length!==0">
+            <h2>Ingredients</h2>
+            <div class="table-wrapper">
+                <table class="alt">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  ng-repeat = "n in large.ingredients track by $index">
+                            <td>{{n.name}}</td>
+                            <td>{{n.quantity}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </article>
 
-  <!-- Video -->
-      <article class="post" ng-show="$parent.large.video">
+    <!-- Video -->
+    <article class="post" ng-show="$parent.large.video">
         <h2>Video</h2>
-          <div style="text-align: center;">
-              <a href={{large.video}} >{{large.video}} </a>
-          </div>
-      </article>
+        <div style="text-align: center;">
+            <a href={{large.video}} >{{large.video}} </a>
+        </div>
+    </article>
 
-      <!-- Post steps -->
-      <article class="post" ng-repeat ="n in large.steps | orderBy:'stepNum'">
-          <div class="title">
-              <h2><a>Step {{n.stepNum}} </a></h2>
-              <p>{{n.detail}}</p>
-          </div>
-      </article>
+    <!-- Post steps -->
+    <article class="post" ng-repeat ="n in large.steps | orderBy:'stepNum'">
+        <div class="title">
+            <h2><a>Step {{n.stepNum}} </a></h2>
+            <p>{{n.detail}}</p>
+        </div>
+    </article>
 
-</article>
+    </article>
 
-<article class="post" ng-controller="CommentController">
+    <article class="post" ng-controller="CommentController">
 
-      <div class="title">
-          <h2>Write a Comment</h2>
-      </div>
+        <div class="title">
+            <h2>Write a Comment</h2>
+        </div>
 
-          <form name="commentEdit" class="row uniform"  ng-submit="submit(contents)" novalidate>
-              <a href="#" class="author"><img ng-src={{profile.picture}} alt="" /></a>
-              <a href="#" class="author"><span class="name">{{ profile.nickname }}</span></a>
-              <div class="12u$">
-                  <textarea name="demo-message" id="demo-message" placeholder="Enter your message*" required ng-model="contents" rows="6"></textarea>
-              </div>
-              <div class="12u$">
+        <form name="commentEdit" class="row uniform"  ng-submit="submit(contents)" novalidate>
+            <a href="#" class="author"><img ng-src={{profile.picture}} alt="" /></a>
+            <a href="#" class="author"><span class="name">{{ profile.nickname }}</span></a>
+            <div class="12u$">
+                <textarea name="demo-message" id="demo-message" placeholder="Enter your message*" required ng-model="contents" rows="6"></textarea>
+            </div>
+            <div class="12u$">
                 <input type="submit"  value="Send Message" />
                 <span ng-show="submitted && profileEdit.$invalid">&nbsp;&nbsp;&nbsp;Please fill required fields.</span>
-              </div>
-          </form>
-      </br></br>
+            </div>
+        </form>
+        </br></br>
 
-      <div class="title">
-          <h2>Comments</h2>
-      </div>
-      </br>
+        <div class="title">
+        <h2>Comments</h2>
+    </div>
+    </br>
 
-      <ul class="posts">
-          <li ng-repeat ="n in comments | orderBy:'-lastmodfide'">
-              <article>
-                  <header>
-                      <h3><a href="#">{{n.commName}}</a></h3>
-                      <p>{{n.lastmodfide | date:'medium'}}</p>
-                      <p>{{n.contents}}</p>
-                  </header>
-                  <img class="image" ng-src={{n.commPicture}} alt="" />
-              </article>
-          </li>
-      </ul>
+    <ul class="posts">
+        <li ng-repeat ="n in comments | orderBy:'-lastmodfide'">
+            <article>
+                <header>
+                    <h3><a href="#">{{n.commName}}</a></h3>
+                    <p>{{n.lastmodfide | date:'medium'}}</p>
+                    <p>{{n.contents}}</p>
+                </header>
+                <img class="image" ng-src={{n.commPicture}} alt="" />
+            </article>
+        </li>
+    </ul>
 
 </article>
 
@@ -112,6 +116,4 @@
     <ul class="actions pagination">
         <button ng-click="back()" class="button big previous">back</button>
     </ul>
-
-
 </article>

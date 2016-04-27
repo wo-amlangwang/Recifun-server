@@ -1,5 +1,7 @@
 var Comment = require('../../models/comment');
+var Reciply = require('../../models/reciply');
 var Promise = require("bluebird");
+
 module.exports = {
     create : function(req) {
         comm = new Comment();
@@ -17,6 +19,18 @@ module.exports = {
                     resolve(newcomm);
                     console.log("comment success");
                 }
+            });
+            Reciply.findOne({_id : req.body.recipe},function (err,reciply) {
+                if(err){
+                    return reject(err);
+                }
+                reciply.comments += 1;
+                reciply.save(function (err,reciply) {
+                    if(err){
+                        return reject(err);
+                    }
+                    return resolve(reciply);
+                });
             });
         });
     },
@@ -36,6 +50,18 @@ module.exports = {
                         }
                     });
                 }
+            });
+            Reciply.findOne({_id : req.body.recipe},function (err,reciply) {
+                if(err){
+                    return reject(err);
+                }
+                reciply.comments = reciply.comments - 1;
+                reciply.save(function (err,reciply) {
+                    if(err){
+                        return reject(err);
+                    }
+                    return resolve(reciply);
+                });
             });
         });
     },

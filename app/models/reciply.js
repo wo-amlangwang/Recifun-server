@@ -20,6 +20,8 @@ var reciplySchema = mongoose.Schema({
     name      : String,
     quantity  : String
   }],
+  liked       : {type : Number, default : 0},
+  comments    : {type : Number, default : 0},
 });
 
 module.exports = mongoose.model('Reciply', reciplySchema);

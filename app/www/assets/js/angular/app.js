@@ -246,12 +246,85 @@ myapp.config(function($routeProvider, $locationProvider){
           };
       }
   })
+  // .when('/follower',{
+  //     templateUrl: 'reciplemini.html',
+  //     controller: function ($scope, $http) {
+  //         $http({
+  //             method: 'GET',
+  //             url: '/api/getFollower'
+  //         }).then(function (response) {
+  //             $scope.pageTitle = "My favorates";
+  //             console.dir(response.data.favorites);
+  //             $scope.favorites = response.data.favorites;
+  //             $scope.reciplys = [];
+  //             $scope.imgUrl = [];
+  //             for (var i = 0; i <  response.data.favorites.length; i++) {
+  //                 $scope.reciplys.push($scope.favorites[i].recipe);
+  //                 if (i % 4 == 1) {
+  //                     $scope.imgUrl.push("images/pic03.jpg");
+  //                 } else if (i % 4 == 2) {
+  //                     $scope.imgUrl.push("images/pic04.jpg");
+  //                 } else if (i % 4 == 3) {
+  //                     $scope.imgUrl.push("images/pic07.jpg");
+  //                 } else {
+  //                     $scope.imgUrl.push("images/pic01.jpg");
+  //                 }
+  //             }
+  //         });
+  //         $scope.mini = true;
+  //         $scope.clickthis = function(n) {
+  //             $scope.mini = false;
+  //             $scope.large = n;
+  //             console.log(n);
+  //         };
+  //     }
+  // })
+  // .when('/following',{
+  //     templateUrl: 'reciplemini.html',
+  //     controller: function ($scope, $http) {
+  //         $http({
+  //             method: 'GET',
+  //             url: '/api/getFollowing'
+  //         }).then(function (response) {
+  //             $scope.pageTitle = "My favorates";
+  //             console.dir(response.data.favorites);
+  //             $scope.favorites = response.data.favorites;
+  //             $scope.reciplys = [];
+  //             $scope.imgUrl = [];
+  //             for (var i = 0; i <  response.data.favorites.length; i++) {
+  //                 $scope.reciplys.push($scope.favorites[i].recipe);
+  //                 if (i % 4 == 1) {
+  //                     $scope.imgUrl.push("images/pic03.jpg");
+  //                 } else if (i % 4 == 2) {
+  //                     $scope.imgUrl.push("images/pic04.jpg");
+  //                 } else if (i % 4 == 3) {
+  //                     $scope.imgUrl.push("images/pic07.jpg");
+  //                 } else {
+  //                     $scope.imgUrl.push("images/pic01.jpg");
+  //                 }
+  //             }
+  //         });
+  //         $scope.mini = true;
+  //         $scope.clickthis = function(n) {
+  //           $scope.mini = false;
+  //           $scope.large = n;
+  //           console.log(n);
+  //         };
+  //     }
+  // })
   .otherwise({
     templateUrl: 'reciplemini.html',
-    controller: function ($scope) {
+    controller: function ($scope, $http) {
         console.log($scope);
       $scope.$parent.thisreciplys.then(function () {
         $scope.pageTitle = "Recipes";
+        $http({
+          method: 'GET',
+          url: '/api/reciplys'
+        }).then(function (response) {
+          $scope.$parent.reciplys = response.data.reciplys;
+          console.log($scope.reciplys);
+        });
         $scope.reciplys = $scope.$parent.reciplys;
         $scope.imgUrl = [];
         for (var i = 0; i < $scope.reciplys.length; i++) {
@@ -363,13 +436,65 @@ myapp.controller("StepController", function($scope, $window) {
     console.log($scope);
 });
 
+myapp.controller("FollowController", function($scope, $window, $http) {
+
+    if($scope.$parent.userislogin == true) {
+        $http.post('/api/getFollow',{
+          followprofile  : $scope.$parent.large.userprofile,
+          userprofile : $scope.$parent.profile
+        }).then(function(data) {
+                if (data.data.follow.length == 0) {
+                $scope.followed = false;
+            } else {
+                $scope.followed = true;
+            }
+        }).catch(function(err) {
+            $window.alert('Server Error!' + err);
+        });
+    }
+
+    $scope.follow = function() {
+        if($scope.$parent.userislogin == true) {
+            $http.post('/api/follow',{
+              followprofile  : $scope.$parent.large.userprofile,
+              userprofile: $scope.$parent.profile
+            }).then(function(data) {
+                $scope.followed = true;
+                $scope.$parent.large.userprofile.follower += 1;
+                $scope.$parent.profile.following += 1;
+            }).catch(function(err) {
+                $window.alert('Server Error!' + err);
+            });
+        } else {
+            $window.alert('Please Login!');
+        }
+    }
+
+    $scope.unfollow = function() {
+        if($scope.$parent.userislogin == true) {
+            $http.post('/api/unfollow',{
+              followprofile  : $scope.$parent.large.userprofile,
+              userprofile: $scope.$parent.profile
+            }).then(function(data) {
+                $scope.followed = false;
+                $scope.$parent.large.userprofile.follower -= 1;
+                $scope.$parent.profile.following -= 1;
+                console.log($scope.$parent.large.userprofile);
+            }).catch(function(err) {
+                $window.alert('Server Error!' + err);
+            });
+        } else {
+            $window.alert('Please Login!');
+        }
+    }
+});
+
 myapp.controller("FavoriteController", function($scope, $window, $http) {
 
     if($scope.$parent.userislogin == true) {
         $http.post('/api/liked',{
           recipe  : $scope.$parent.large
         }).then(function(data) {
-            // +1
             if (data.data.favorite == null) {
                 $scope.liked = false;
             } else {
@@ -385,8 +510,8 @@ myapp.controller("FavoriteController", function($scope, $window, $http) {
             $http.post('/api/like',{
               recipe  : $scope.$parent.large
             }).then(function(data) {
-                // +1
                 $scope.liked = true;
+                $scope.$parent.large.liked += 1;
             }).catch(function(err) {
                 $window.alert('Server Error!');
             });
@@ -400,8 +525,8 @@ myapp.controller("FavoriteController", function($scope, $window, $http) {
             $http.post('/api/unlike',{
               recipe  : $scope.$parent.large
             }).then(function(data) {
-                // -1
                 $scope.liked = false;
+                $scope.$parent.large.liked -= 1;
             }).catch(function(err) {
                 $window.alert('Server Error!');
             });
@@ -434,6 +559,7 @@ myapp.controller("CommentController", function($scope, $window, $http) {
                 commName : $scope.$parent.profile.nickname,
                 commUser : $scope.$parent.profile.user
             }).then(function(data) {
+                $scope.$parent.large.comments += 1;
                 $scope.contents = "";
                 $http.post('/api/getComments',{
                   recipe  : $scope.$parent.large,
@@ -448,5 +574,6 @@ myapp.controller("CommentController", function($scope, $window, $http) {
         }
     };
 });
+
 
 // --------- End ----------

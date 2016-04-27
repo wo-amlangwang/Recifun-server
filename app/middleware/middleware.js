@@ -3,6 +3,7 @@ var reciply = require('./lib/reciplycaller');
 var profile = require('./lib/profilecaller');
 var favorite = require('./lib/favoritecaller');
 var comment = require('./lib/commentcaller');
+var follow = require('./lib/followcaller');
 
 module.exports = {
   local : local,
@@ -10,6 +11,7 @@ module.exports = {
   profile : profile,
   favorite : favorite,
   comment : comment,
+  follow : follow,
   isAuthenticated : function (req,res,next) {
     if (req.isAuthenticated()){
       return next();

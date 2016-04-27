@@ -1,4 +1,6 @@
 var Favorite = require('../../models/favorite');
+var Reciply = require('../../models/reciply');
+
 var Promise = require("bluebird");
 module.exports = {
     create : function(req) {
@@ -14,6 +16,19 @@ module.exports = {
                     resolve(newfavo);
                     console.log("like success");
                 }
+            });
+            Reciply.findOne({_id : req.body.recipe},function (err,reciply) {
+                if(err){
+                    return reject(err);
+                }
+                reciply.liked += 1;
+                reciply.save(function (err,reciply) {
+                    if(err){
+                        console.log(err);
+                        return reject(err);
+                    }
+                    return resolve(reciply);
+                });
             });
         });
     },
@@ -33,6 +48,18 @@ module.exports = {
                         }
                     });
                 }
+            });
+            Reciply.findOne({_id : req.body.recipe},function (err,reciply) {
+                if(err){
+                    return reject(err);
+                }
+                reciply.liked -= 1;
+                reciply.save(function (err,reciply) {
+                    if(err){
+                        return reject(err);
+                    }
+                    return resolve(reciply);
+                });
             });
         });
     },

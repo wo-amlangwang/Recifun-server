@@ -24,7 +24,7 @@ module.exports = {
     });
   },
    getComments : function (req,res,next) {
-       commentcontrol.getComments(req).then(function(comments) {    
+       commentcontrol.getComments(req).then(function(comments) {
            res.status(200).send({ 'comments' : comments});
        }).catch(function (err) {
            console.log(err);

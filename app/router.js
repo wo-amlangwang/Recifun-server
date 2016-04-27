@@ -107,4 +107,10 @@ module.exports = function(app,passport) {
   app.post('/api/comment',middleware.isAuthenticated,middleware.comment.create);
   app.post('/api/deleteComment',middleware.isAuthenticated,middleware.comment.remove);
   app.post('/api/getComments',middleware.comment.getComments);
+
+  app.post('/api/follow',middleware.isAuthenticated,middleware.follow.follow);
+  app.post('/api/unfollow',middleware.isAuthenticated,middleware.follow.remove);
+  app.post('/api/getFollower',middleware.isAuthenticated,middleware.follow.getFollower);
+  app.get('/api/getFollowing',middleware.isAuthenticated,middleware.follow.getFollowing);
+  app.get('/api/getFollow',middleware.isAuthenticated,middleware.follow.getOne);
 };
