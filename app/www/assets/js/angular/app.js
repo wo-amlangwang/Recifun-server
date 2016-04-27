@@ -189,7 +189,7 @@ myapp.config(function($routeProvider, $locationProvider){
                 userid : $scope.$parent.profile.user
             }
           }).then(function (response) {
-            $scope.pageTitle = "My Uplaods";
+            $scope.$parent.pageTitle = "My Uplaods";
             $scope.reciplys = response.data.reciplys;
             $scope.imgUrl = [];
             for (var i = 0; i < $scope.reciplys.length; i++) {
@@ -222,7 +222,7 @@ myapp.config(function($routeProvider, $locationProvider){
                   userid : $scope.$parent.profile.user
               }
           }).then(function (response) {
-              $scope.pageTitle = "My favorates";
+              $scope.$parent.pageTitle = "My favorates";
               console.dir(response.data.favorites);
               $scope.favorites = response.data.favorites;
               $scope.reciplys = [];
@@ -255,7 +255,7 @@ myapp.config(function($routeProvider, $locationProvider){
   //             method: 'GET',
   //             url: '/api/getFollower'
   //         }).then(function (response) {
-  //             $scope.pageTitle = "My favorates";
+  //             $scope.$parent.pageTitle = "My favorates";
   //             console.dir(response.data.favorites);
   //             $scope.favorites = response.data.favorites;
   //             $scope.reciplys = [];
@@ -288,7 +288,7 @@ myapp.config(function($routeProvider, $locationProvider){
   //             method: 'GET',
   //             url: '/api/getFollowing'
   //         }).then(function (response) {
-  //             $scope.pageTitle = "My favorates";
+  //             $scope.$parent.pageTitle = "My favorates";
   //             console.dir(response.data.favorites);
   //             $scope.favorites = response.data.favorites;
   //             $scope.reciplys = [];
@@ -319,7 +319,7 @@ myapp.config(function($routeProvider, $locationProvider){
     controller: function ($scope, $http) {
         console.log($scope);
       $scope.$parent.thisreciplys.then(function () {
-        $scope.pageTitle = "Recipes";
+        $scope.$parent.pageTitle = "Recipes";
         $http({
           method: 'GET',
           url: '/api/reciplys'
@@ -388,11 +388,11 @@ myapp.controller("SearchController", function($scope, $http, $window) {
       console.log("Search Field submit");
     $http.post('/api/reciplySearch',{
       searchkey  : $scope.searchkey
-    }).then(function(data) {
-        console.log($scope);
+    }).then(function(data) {    
+        $scope.$parent.pageTitle = "Search";
+        console.log($scope.$parent.pageTitle);
         $scope.$parent.reciplys = data.data.reciplys;
         $window.location="#reciplemini.html";
-        $scope.pageTitle = "Search for " + $scope.searchkey;
     }).catch(function(err) {
       $window.alert('cannot search : ' + err);
     });
