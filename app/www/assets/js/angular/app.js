@@ -157,7 +157,9 @@ myapp.config(function($routeProvider, $locationProvider){
   .when('/editprofile',{
     templateUrl : 'editprofile.html',
     controller : function ($scope,$http,$window) {
-      $scope.submit = function () {
+        $scope.nickname = $scope.$parent.profile.nickname;
+        $scope.email = $scope.$parent.profile.email;
+        $scope.submit = function () {
           if (!$scope.profileEdit.$valid) {
               $scope.submitted = true;
           } else {
@@ -168,12 +170,12 @@ myapp.config(function($routeProvider, $locationProvider){
               });
               $window.location.href ='/';
           }
-      };
-      $scope.cancel =function() {
+        };
+        $scope.cancel =function() {
         $scope.nickname = '';
         $scope.email = '';
         $window.location.href ='/';
-      };
+        };
     }
   })
   .when('/myRecipe',{

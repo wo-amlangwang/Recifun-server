@@ -16,9 +16,12 @@
 
 	<!-- Enter Content Here -->
 	<form name="profileEdit" ng-submit="submit()" novalidate>
-		<input type="text" name="demo-name" id="demo-name" required ng-model="nickname" placeholder="Username*" />
+
+		<h3>Nickname</h3>
+		<input type="text" name="demo-name" id="demo-name" required ng-model="nickname" placeholder="Nickname*" />
 		</br>
-		<input type="email" name="demo-email" id="demo-email" required ng-model="email" placeholder="Email*" />
+		<h3>Email</h3>
+		<input type="text" name="demo-email" id="demo-email" required ng-model="email" placeholder="Email*" />
 		</br>
 		<button class="button large" id="upload" >Submit</button>
 		<button class="button large" id="cancel" ng-click = "cancel()" >Cancel</button>
