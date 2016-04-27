@@ -68,6 +68,8 @@ module.exports = {
             Reciply.find({})
             .sort({publish : -1})
             .populate('userprofile')
+            .populate('steps')
+            .populate('ingredients')
             .exec(function(err,reciplys) {
                 if(err){
                     reject(err);
@@ -82,6 +84,8 @@ module.exports = {
             Reciply.find({author : req.body.userid})
             .sort({publish : -1})
             .populate('userprofile')
+            .populate('steps')
+            .populate('ingredients')
             .exec(function(err, reciplys) {
                 if(err){
                     reject(err);
@@ -95,6 +99,8 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             Reciply.findOne({_id : req.body._id || req.params._id})
             .populate('userprofile')
+            .populate('steps')
+            .populate('ingredients')
             .exec(function(err, reciply) {
                 console.log("getOne reciply: " + reciply);
                 if(err){
@@ -130,8 +136,9 @@ module.exports = {
             Reciply.find({name : new RegExp(req.body.searchkey, "i")})
             .sort({publish : -1})
             .populate('userprofile')
+            .populate('steps')
+            .populate('ingredients')
             .exec(function(err, reciplys) {
-                console.log("Matched reciplys: " + reciplys);
                 if(err){
                     reject(err);
                 }else {

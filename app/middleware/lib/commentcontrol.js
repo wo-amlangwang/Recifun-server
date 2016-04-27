@@ -43,6 +43,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             Comment.find({recipe : req.body.recipe})
             .sort({lastmodfide : -1})
+            // .populate('userprofile')
             .exec(function(err, comments) {
                 if(err){
                     reject(err);

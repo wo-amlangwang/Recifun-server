@@ -40,7 +40,7 @@ module.exports = {
         return new Promise(function(resolve, reject) {
             Favorite.findOne({user : req.user._id, recipe : req.body.recipe})
             .exec(function(err, favorite) {
-                console.log("Matched favorites, should be one: " + favorite);
+                console.log("Matched favorite : " + favorite);
                 if(err){
                     reject(err);
                 }else {
@@ -53,13 +53,15 @@ module.exports = {
     getFavorites : function(req) {
         return new Promise(function(resolve, reject) {
             Favorite.find({user : req.user._id})
+            .populate('recipe')
+            .populate('steps')
+            .populate('ingredients')
             .exec(function(err, favorites) {
-                console.log("Matched favorites : " + favorites);
                 if(err){
                     reject(err);
                 }else {
                     resolve(favorites);
-                    console.log("find favorites success");
+                    console.log("find favorites success : " + favorites.length);
                 }
             });
         });

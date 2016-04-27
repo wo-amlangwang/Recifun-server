@@ -187,6 +187,7 @@ myapp.config(function($routeProvider, $locationProvider){
                 userid : $scope.$parent.profile.user
             }
           }).then(function (response) {
+            $scope.pageTitle = "My Uplaods";
             $scope.reciplys = response.data.reciplys;
             $scope.imgUrl = [];
             for (var i = 0; i < $scope.reciplys.length; i++) {
@@ -198,7 +199,7 @@ myapp.config(function($routeProvider, $locationProvider){
                     $scope.imgUrl.push("images/pic07.jpg");
                 } else {
                     $scope.imgUrl.push("images/pic01.jpg");
-                } console.log("for loop" + i + " " + $scope.imgUrl[i]);
+                }
             }
           });
           $scope.mini = true;
@@ -212,7 +213,6 @@ myapp.config(function($routeProvider, $locationProvider){
   .when('/myFavorite',{
       templateUrl: 'reciplemini.html',
       controller: function ($scope, $http) {
-          console.log($scope.$parent.profile.user);
           $http({
               method: 'POST',
               url: '/api/myFavorites',
@@ -220,11 +220,13 @@ myapp.config(function($routeProvider, $locationProvider){
                   userid : $scope.$parent.profile.user
               }
           }).then(function (response) {
+              $scope.pageTitle = "My favorates";
+              console.dir(response.data.favorites);
               $scope.favorites = response.data.favorites;
               $scope.reciplys = [];
               $scope.imgUrl = [];
-              for (var i = 0; i <  $scope.favorites.length; i++) {
-                  $scope.reciplys[i] = $scope.favorites[i].recipe;
+              for (var i = 0; i <  response.data.favorites.length; i++) {
+                  $scope.reciplys.push($scope.favorites[i].recipe);
                   if (i % 4 == 1) {
                       $scope.imgUrl.push("images/pic03.jpg");
                   } else if (i % 4 == 2) {
@@ -249,6 +251,7 @@ myapp.config(function($routeProvider, $locationProvider){
     controller: function ($scope) {
         console.log($scope);
       $scope.$parent.thisreciplys.then(function () {
+        $scope.pageTitle = "Recipes";
         $scope.reciplys = $scope.$parent.reciplys;
         $scope.imgUrl = [];
         for (var i = 0; i < $scope.reciplys.length; i++) {
@@ -260,7 +263,7 @@ myapp.config(function($routeProvider, $locationProvider){
                 $scope.imgUrl.push("images/pic07.jpg");
             } else {
                 $scope.imgUrl.push("images/pic01.jpg");
-            } console.log("for loop" + i + " " + $scope.imgUrl[i]);
+            }
         }
       });
       $scope.clickthis = function(n) {
@@ -314,6 +317,7 @@ myapp.controller("SearchController", function($scope, $http, $window) {
         console.log($scope);
         $scope.$parent.reciplys = data.data.reciplys;
         $window.location="#reciplemini.html";
+        $scope.pageTitle = "Search for " + $scope.searchkey;
     }).catch(function(err) {
       $window.alert('cannot search : ' + err);
     });
