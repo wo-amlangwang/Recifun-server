@@ -37,6 +37,10 @@
 						<p>Please rember to confirm all ingredients! You need to write at least 1 ingredient!</p>
 					</div>
 				</header>
+				<div style="display:block;">
+					 <button class="button small" ng-click="addOneIng($index)" tabindex="-1">Add ingredient</button>
+				</div>
+				</br>
 				<div class="row uniform" ng-repeat ="ingredient in ingredients track by $index" ng-model="ingredients">
 					<div id="ingredient-name" class="6u 12u$(xsmall)">
 							<input type="text" required ng-model="ingredient.name" value="" placeholder="Ingredient*" />
@@ -47,10 +51,7 @@
 					<a  ng-click="remove(ingredient, $index)">remove</a>
 					<a  ng-click="addOne(ingredients, $index)" ng-show="$last">Confirm Ingredients</a>
 				</div>
-				</br>
-				<div style="display:block;">
-					 <button class="button small" ng-click="addOneIng($index)" tabindex="-1">Add ingredient</button>
-				</div>
+
 			</section>
 		</br>
 		</div>
@@ -63,6 +64,13 @@
 					<p>Please rember to confirm all steps! You need to write at least 1 step!</p>
 				</div>
 			</header>
+
+			<div style="display:block;">
+				 <a class="button small"  ng-click="addOneStep($index)" tabindex="-1" id="addBuZhou">Add step</a>
+			</div>
+
+			</br>
+
 			<div ng-repeat="step in steps track by $index" ng-model="steps">
 				<span class="12u$">
 					<textarea onclick="$(this).focus();" required ng-model="step.detail" placeholder="Step Detail*"></textarea>
@@ -73,10 +81,6 @@
 				</div>
 				</br>
 			</div>
-			<div style="display:block;">
-				 <a class="button small"  ng-click="addOneStep($index)" tabindex="-1" id="addBuZhou">Add step</a>
-			</div>
-			</br>
 		</div>
 		<input type="submit" class="button large" id="upload">
 		<button class="button large" id="cancel" ng-click="cancel()">Cancel</button>

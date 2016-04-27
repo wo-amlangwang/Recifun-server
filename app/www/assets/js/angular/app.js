@@ -408,6 +408,7 @@ myapp.controller("IngredientController", function($scope, $window) {
       $scope.$parent.ingredients[$index].name = ingredients[$index].name;
       $scope.$parent.ingredients[$index].quantity =  ingredients[$index].quantity;
       console.dir(ingredients);
+      $window.alert("Confirm Successful");
   };
   $scope.remove = function (ingredients, $index) {
     $scope.ingredients.splice($index, 1);
@@ -428,6 +429,7 @@ myapp.controller("StepController", function($scope, $window) {
             $scope.$parent.steps[i].stepNum = i;
         }
         console.dir(steps);
+        $window.alert("Confirm Successful");
     };
     $scope.remove = function (steps, $index) {
         $scope.steps.splice($index, 1);
@@ -454,7 +456,9 @@ myapp.controller("FollowController", function($scope, $window, $http) {
     }
 
     $scope.follow = function() {
-        if($scope.$parent.userislogin == true) {
+        if ($scope.large.userprofile._id == $scope.$parent.profile._id) {
+            $window.alert('Cannot follow yourself!');
+        } else if ($scope.$parent.userislogin == true) {
             $http.post('/api/follow',{
               followprofile  : $scope.$parent.large.userprofile,
               userprofile: $scope.$parent.profile
