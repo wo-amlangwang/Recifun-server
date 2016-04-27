@@ -110,7 +110,7 @@ module.exports = function(app,passport) {
 
   app.post('/api/follow',middleware.isAuthenticated,middleware.follow.follow);
   app.post('/api/unfollow',middleware.isAuthenticated,middleware.follow.remove);
-  app.post('/api/getFollower',middleware.isAuthenticated,middleware.follow.getFollower);
+  app.get('/api/getFollower',middleware.isAuthenticated,middleware.follow.getFollower);
   app.get('/api/getFollowing',middleware.isAuthenticated,middleware.follow.getFollowing);
-  app.get('/api/getFollow',middleware.isAuthenticated,middleware.follow.getOne);
+  app.post('/api/getFollow',middleware.isAuthenticated,middleware.follow.getOne);
 };

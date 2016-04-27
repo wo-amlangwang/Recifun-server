@@ -38,6 +38,7 @@ module.exports = {
     },
     getOne : function (req,res,next) {
         followcontrol.getOne(req).then(function(follow) {
+            console.log("find follow success");
             res.status(200).send({ 'follow' : follow});
         }).catch(function (err) {
             console.log(err);
